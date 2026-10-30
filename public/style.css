@@ -110,3 +110,19 @@ main{max-width:1160px;padding-top:24px}
  .panels .panel{padding:19px}
 }
 @media(min-width:781px) and (max-width:1100px){.hero{aspect-ratio:2.25/1}}
+
+/* Composed game hero — replace old baked-in illustration logo and theatre masks */
+.hero.new-hero{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,2.3fr) minmax(0,1fr);align-items:center;gap:8px;min-height:320px!important;aspect-ratio:auto!important;padding:20px 15px!important;background:linear-gradient(100deg,#39154eeb,#102b53d9,#3e1750eb)!important;overflow:hidden;isolation:isolate}
+.new-hero .hero-scene{position:absolute;inset:0;z-index:-2;opacity:.49;background:linear-gradient(90deg,#21102d55,#15122b00,#21102d55),url('/assets/room-red.webp') left center/50% auto no-repeat,url('/assets/room-blue.webp') right center/50% auto no-repeat}
+.new-hero .hero-message{position:relative;z-index:2;min-width:0;text-align:center}
+.new-hero .hero-kicker,.new-hero h1,.new-hero p{position:static!important;clip-path:none!important;overflow:visible!important;width:auto!important;height:auto!important;white-space:normal!important}
+.new-hero .hero-kicker{padding:6px 12px!important;margin:0 auto 10px!important;border:1px solid #ffdc89!important;background:#27143ef0!important;font-size:clamp(10px,1.3vw,14px)!important;letter-spacing:1px!important}
+.new-hero h1{margin:8px auto 12px!important;font-size:clamp(37px,5.1vw,68px)!important;line-height:1.05!important;filter:none!important}
+.new-hero h1 span:not(.title-not):not(.title-list){font-size:.47em!important;max-width:76px!important}
+.new-hero p{font-size:clamp(12px,1.2vw,17px)!important;line-height:1.5!important;margin:8px auto!important;color:#fff4de!important;text-shadow:0 2px 5px #000!important}
+.new-hero .hero-cast{display:flex;align-items:center;justify-content:center;gap:8px;position:relative;z-index:1}
+.new-hero .hero-cast img{width:48%;max-width:134px;border:3px solid #ffd179;border-radius:15px;box-shadow:0 9px 24px #0b061bbb;transform:rotate(-6deg)}
+.new-hero .hero-cast img:nth-child(2){transform:rotate(7deg) translateY(18px)}
+.new-hero .hero-cast-right img:first-child{transform:rotate(6deg)}
+.new-hero .hero-cast-right img:nth-child(2){transform:rotate(-7deg) translateY(18px)}
+@media(max-width:780px){.hero.new-hero{grid-template-columns:minmax(0,1fr);min-height:235px!important;padding:20px 14px!important}.new-hero .hero-cast{display:none}.new-hero h1{font-size:clamp(37px,10vw,66px)!important}.new-hero p{font-size:13px!important}.new-hero .hero-scene{background-size:70% auto,70% auto}}
