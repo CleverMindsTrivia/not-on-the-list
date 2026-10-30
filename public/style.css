@@ -77,3 +77,9 @@ header{border-bottom:2px solid #ffcf75;background:#15102e}
 .panels .primary{background:#ef2d75;color:white}
 .panels .mint{background:#18c3bd;color:#0e1742}
 @media(max-width:780px){.hero{min-height:310px;padding:108px 12px 28px;border-width:3px}.hero h1{font-size:clamp(39px,9vw,68px)}.hero h1 span:not(.title-not):not(.title-list){max-width:77px}.hero-kicker{letter-spacing:1.2px}.panels .panel{border-width:2px}}
+
+/* Illustrated production room environments and matching title splash */
+.room{background-image:linear-gradient(180deg,rgba(12,7,31,.80),rgba(13,7,28,.08) 44%,rgba(18,9,34,.67) 100%),var(--image)!important;background-size:cover!important;background-position:center center!important}
+.hero{background:linear-gradient(180deg,rgba(14,8,31,.07),rgba(16,7,29,.04) 65%,rgba(21,10,40,.45)),url('/assets/welcome-illustration.webp') center/cover no-repeat!important;min-height:370px;padding:48px 18px!important}
+.hero-kicker,.hero h1,.hero p,.hero:after{position:absolute!important;clip-path:inset(50%)!important;width:1px!important;height:1px!important;overflow:hidden!important;white-space:nowrap!important;padding:0!important;margin:0!important;border:0!important}
+@media(max-width:780px){.hero{min-height:240px!important;background-position:center!important}}
