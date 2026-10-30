@@ -18,9 +18,9 @@ jobs:
           set -euo pipefail
           test -f Not-on-the-List-Artwork.zip || exit 0
           unzip -Z1 Not-on-the-List-Artwork.zip | grep -Eq '^public/assets/guests/astronaut\.webp$'
-          unzip -o Not-on-the-List-Artwork.zip 'public/assets/guests/*.webp'
+          unzip -o Not-on-the-List-Artwork.zip 'public/assets/guests/*.webp' -x 'public/assets/guests/devil.webp'
           count=$(find public/assets/guests -maxdepth 1 -name '*.webp' | wc -l)
-          test "$count" -eq 20
+          test "$count" -eq 19
           python3 - <<'PY'
           from pathlib import Path
           p=Path('public/client.mjs')
