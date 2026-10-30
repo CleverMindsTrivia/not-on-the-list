@@ -83,3 +83,30 @@ header{border-bottom:2px solid #ffcf75;background:#15102e}
 .hero{background:linear-gradient(180deg,rgba(14,8,31,.07),rgba(16,7,29,.04) 65%,rgba(21,10,40,.45)),url('/assets/welcome-illustration.webp') center/cover no-repeat!important;min-height:370px;padding:48px 18px!important}
 .hero-kicker,.hero h1,.hero p,.hero:after{position:absolute!important;clip-path:inset(50%)!important;width:1px!important;height:1px!important;overflow:hidden!important;white-space:nowrap!important;padding:0!important;margin:0!important;border:0!important}
 @media(max-width:780px){.hero{min-height:240px!important;background-position:center!important}}
+
+/* v0.7 layout cleanup — keep illustration as artwork, not a duplicated UI header */
+header{padding:14px max(22px,calc((100vw - 1180px)/2));min-height:64px}
+header .logo{display:flex;align-items:center;gap:6px;font-family:Fredoka,sans-serif;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.6px;white-space:nowrap}
+header .logo span{color:#fff4e4}
+header .logo em{color:#ffcf5b}
+main{max-width:1160px;padding-top:24px}
+.hero{width:100%;max-width:1080px;min-height:0!important;height:auto;aspect-ratio:2.37/1;margin:0 auto 22px!important;border-width:3px!important;border-radius:22px!important;padding:0!important;background-image:url('/assets/welcome-illustration.webp')!important;background-size:cover!important;background-position:50% 50%!important;box-shadow:0 8px 0 #100a27,0 20px 40px #09071a80!important}
+.hero::before{display:none!important}
+.hero::after{display:none!important}
+.panels{max-width:1080px;margin:28px auto 20px!important;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:18px}
+.panels .panel{min-width:0;padding:24px 25px 28px;border-radius:19px;box-shadow:0 6px 0 #100b27,0 13px 26px #07051277}
+.panels .panel h2{font-size:clamp(27px,2.8vw,36px);margin:0 0 7px}
+.panels .panel p{line-height:1.45;margin-bottom:14px}
+.panels form{display:flex;flex-direction:column}
+.panels label{margin:9px 0 5px}
+.panels input{min-height:53px}
+.panels button{margin-top:15px;min-height:54px}
+@media(max-width:780px){
+ header{padding:12px 16px;min-height:58px}
+ header .logo{font-size:21px}
+ main{padding:15px 11px 34px}
+ .hero{aspect-ratio:1.85/1;border-radius:14px!important;background-position:center center!important;margin-bottom:12px!important}
+ .panels{grid-template-columns:1fr;margin:16px auto!important;gap:14px}
+ .panels .panel{padding:19px}
+}
+@media(min-width:781px) and (max-width:1100px){.hero{aspect-ratio:2.25/1}}
