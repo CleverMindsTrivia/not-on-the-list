@@ -19,7 +19,7 @@ export const NEIGHBORS = {
 export const DICE = ['red', 'green', 'blue', 'yellow', 'black', 'black'];
 export const COSTUMES = [
   ['astronaut', 'Astronaut'], ['ballerina', 'Ballerina'], ['cowboy', 'Cowboy'],
-  ['detective', 'Detective'], ['devil', 'Devil'], ['diva', 'Diva'],
+  ['detective', 'Detective'], ['mad-scientist', 'Mad Scientist'], ['diva', 'Diva'],
   ['fairy', 'Fairy'], ['flapper', 'Flapper'], ['jester', 'Jester'],
   ['knight', 'Knight'], ['mermaid', 'Mermaid'], ['ninja', 'Ninja'],
   ['pirate', 'Pirate'], ['princess', 'Princess'], ['robot', 'Robot'],
