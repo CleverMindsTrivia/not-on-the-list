@@ -1,0 +1,35 @@
+name: Install illustrated Mad Scientist portrait
+on:
+  push:
+    paths:
+      - 'Not-on-the-List-Mad-Scientist-Update.zip'
+      - '.github/workflows/install-mad-scientist.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install official Mad Scientist illustration
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip='Not-on-the-List-Mad-Scientist-Update.zip'
+          test -f "$zip" || exit 0
+          unzip -Z1 "$zip" | grep -Fxq 'public/assets/guests/mad-scientist.webp'
+          unzip -o "$zip" 'public/assets/guests/mad-scientist.webp'
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/client.mjs')
+          s=p.read_text()
+          s=s.replace("const guestImg=id=>`/assets/guests/${encodeURIComponent(id)}.${id==='mad-scientist'?'svg':'webp'}`;","const guestImg=id=>`/assets/guests/${encodeURIComponent(id)}.webp`;")
+          p.write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/guests/mad-scientist.webp public/client.mjs
+          if ! git diff --cached --quiet; then
+            git commit -m 'Install matching illustrated Mad Scientist portrait'
+            git push
+          fi
