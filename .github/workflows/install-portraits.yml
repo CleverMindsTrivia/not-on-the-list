@@ -2,7 +2,7 @@ name: Install cartoon guest portraits
 on:
   push:
     paths:
-      - 'not_on_the_list_20_cartoon_portraits.zip'
+      - 'Not-on-the-List-Artwork.zip'
       - '.github/workflows/install-portraits.yml'
 permissions:
   contents: write
@@ -16,9 +16,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f not_on_the_list_20_cartoon_portraits.zip || exit 0
-          unzip -Z1 not_on_the_list_20_cartoon_portraits.zip | grep -Eq '^public/assets/guests/astronaut\.webp$'
-          unzip -o not_on_the_list_20_cartoon_portraits.zip 'public/assets/guests/*.webp'
+          test -f Not-on-the-List-Artwork.zip || exit 0
+          unzip -Z1 Not-on-the-List-Artwork.zip | grep -Eq '^public/assets/guests/astronaut\.webp$'
+          unzip -o Not-on-the-List-Artwork.zip 'public/assets/guests/*.webp'
           count=$(find public/assets/guests -maxdepth 1 -name '*.webp' | wc -l)
           test "$count" -eq 20
           python3 - <<'PY'
