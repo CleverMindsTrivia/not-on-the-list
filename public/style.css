@@ -204,3 +204,10 @@ header .official-wordmark img{display:block!important;max-width:100%!important;w
 .hero.new-hero{position:relative;display:block!important;width:100%;min-height:0!important;aspect-ratio:1916/821!important;padding:0!important;max-width:1110px!important;overflow:hidden!important;background: url('/assets/official-start-banner.webp') center/contain no-repeat!important;border:3px solid #ffd88c!important;border-radius:17px!important}
 .new-hero .hero-cast,.new-hero .hero-message,.new-hero .hero-scene{position:absolute!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;pointer-events:none!important}
 @media(max-width:650px){header .official-wordmark{width:160px;height:42px}.hero.new-hero{width:100%!important;aspect-ratio:1916/821!important;border-radius:11px!important}}
+
+/* v0.13 — exact illustrated logo, full proportions, no cropped header art */
+header{min-height:104px!important;padding:10px max(20px,calc((100vw - 1180px)/2))!important;overflow:visible!important}
+header .logo.official-wordmark{display:flex!important;align-items:center!important;justify-content:flex-start!important;width:min(350px,50vw)!important;height:auto!important;min-height:76px!important;max-height:none!important;overflow:visible!important;flex:none!important}
+header .logo.official-wordmark img{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;object-fit:contain!important;object-position:left center!important;filter:drop-shadow(0 4px 5px #0502149c)!important}
+.hero.new-hero{background-image:url('/assets/official-start-banner.webp')!important;background-color:#25113a!important;background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important}
+@media(max-width:650px){header{min-height:70px!important;padding:8px 12px!important}header .logo.official-wordmark{width:min(220px,58vw)!important;min-height:50px!important}header .eyebrow{font-size:9px!important;letter-spacing:1px!important}}
