@@ -1,0 +1,45 @@
+name: Install approved official brand and Party Parlor
+on:
+  push:
+    paths:
+      - 'Not-on-the-List-Official-Brand-and-Parlor.zip'
+      - '.github/workflows/install-official-brand.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install approved banner, logo and Party Parlor
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip='Not-on-the-List-Official-Brand-and-Parlor.zip'
+          test -f "$zip" || exit 0
+          for name in official-start-banner official-logo room-party-parlor; do
+            unzip -Z1 "$zip" | grep -Fxq "public/assets/$name.webp"
+          done
+          unzip -o "$zip" 'public/assets/*.webp'
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/index.html')
+          s=p.read_text()
+          old='<div class="logo official-wordmark" aria-label="Not on the List"><strong>NOT</strong><span>ON<br>THE</span><strong>LIST</strong></div>'
+          new='<div class="logo official-wordmark"><img src="/assets/official-logo.webp" alt="Not on the List"></div>'
+          if old not in s and new not in s:
+              raise SystemExit('Header logo marker missing')
+          p.write_text(s.replace(old,new))
+          p=Path('public/client.mjs')
+          s=p.read_text().replace("yellow:'room-party-parlor.svg'","yellow:'room-party-parlor.webp'")
+          if "yellow:'room-party-parlor.webp'" not in s:
+              raise SystemExit('Party Parlor image mapping missing')
+          p.write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/official-start-banner.webp public/assets/official-logo.webp public/assets/room-party-parlor.webp public/index.html public/client.mjs
+          if ! git diff --cached --quiet; then
+            git commit -m 'Install approved exact hero/logo and illustrated Party Parlor'
+            git push
+          fi
