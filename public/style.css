@@ -197,3 +197,10 @@ main{max-width:1160px;padding-top:24px}
 .board-motto{font-size:clamp(9px,1.1vw,12px);font-weight:900;letter-spacing:1px;color:#ffecba;text-align:center}
 .board-center{display:none!important}
 @media(max-width:650px){.board-mansion{gap:5px!important;padding:5px!important;border-width:5px!important}.board-mansion .room{border-width:2px!important}.board-footer{gap:3px!important;padding:9px 4px!important;min-height:60px!important}.board-wordmark b{font-size:23px}.board-motto{font-size:8px;letter-spacing:0}.board-mansion .room h3{font-size:12px!important;max-width:none}}
+
+/* v0.12: exact approved hero artwork and cropped official wordmark */
+header .official-wordmark{display:block!important;transform:none!important;filter:none!important;padding:0!important;height:49px;width:210px;overflow:hidden}
+header .official-wordmark img{display:block!important;max-width:100%!important;width:100%!important;height:100%!important;object-fit:contain!important;filter:drop-shadow(0 2px 5px #0008)}
+.hero.new-hero{position:relative;display:block!important;width:100%;min-height:0!important;aspect-ratio:1916/821!important;padding:0!important;max-width:1110px!important;overflow:hidden!important;background: url('/assets/official-start-banner.webp') center/contain no-repeat!important;border:3px solid #ffd88c!important;border-radius:17px!important}
+.new-hero .hero-cast,.new-hero .hero-message,.new-hero .hero-scene{position:absolute!important;clip-path:inset(50%)!important;height:1px!important;width:1px!important;overflow:hidden!important;pointer-events:none!important}
+@media(max-width:650px){header .official-wordmark{width:160px;height:42px}.hero.new-hero{width:100%!important;aspect-ratio:1916/821!important;border-radius:11px!important}}
