@@ -49,6 +49,7 @@ function handle(ws,msg){const action=msg.type;
  }
  for(const p of game.players)recentCostumes.set(p.name.toLocaleLowerCase(),p.characterId);
  broadcast(lobby);return;}
+ if(action==='endGame'){if(lobby.seats[0]!==seat)throw Error('Only the host can end the game.');if(!lobby.game||lobby.game.phase!=='playing')throw Error('No active game to end.');lobby.game.phase='over';lobby.game.winner=null;lobby.game.roll=null;lobby.game.log.unshift('The host ended the party. No winner was declared.');broadcast(lobby);return;}
  const g=lobby.game;if(!g||g.phase!=='playing')throw Error('There is no active game.');if(current(lobby)?.id!==seat.id)throw Error('It is not your turn.');
  if(action==='roll')rollDie(g);else if(action==='move')moveGuest(g,msg.guestId,msg.destination);else if(action==='eliminate')eliminateGuest(g,msg.guestId);else if(action==='sendHome')sendGuestHome(g);else throw Error('Unknown game action.');
  broadcast(lobby);
