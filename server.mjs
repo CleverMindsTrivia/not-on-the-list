@@ -44,7 +44,7 @@ function handle(ws,msg){const action=msg.type;
   if(other){const temp=p.characterId;p.characterId=other.characterId;other.characterId=temp;}
   else {
    const replacement=game.guests.find(g=>g.id!==prev&&!game.players.some(x=>x.characterId===g.id));
-   if(replacement)p.characterId=replacement.id;
+   if(replacement){const oldId=p.characterId;p.characterId=replacement.id;const at=game.deck.indexOf(replacement.id);if(at>=0)game.deck[at]=oldId;}
   }
  }
  for(const p of game.players)recentCostumes.set(p.name.toLocaleLowerCase(),p.characterId);
