@@ -119,9 +119,12 @@ export function sendGuestHome(game) {
   const player = activePlayer(game);
   if (game.phase !== 'playing' || game.roll !== 'black' || !player.alive || player.draws >= 3 || game.deck.length === 0)
     throw new Error('Sending a guest home is unavailable.');
-  const id = game.deck.shift();
+  // Drawing is independent of location and must never select a player identity.
+  const assigned = new Set(game.players.map(p => p.characterId));
+  const id = game.deck[0];
   const guest = guestFor(game, id);
-  if (!guest || guest.status !== 'party') throw new Error('The guest deck is out of sync.');
+  if (!guest || guest.status !== 'party' || assigned.has(id)) throw new Error('The guest deck is out of sync.');
+  game.deck.shift();
   guest.status = 'home';
   player.draws++;
   game.log.unshift(`${player.name} sent the ${guest.name} home (${player.draws}/3 passes).`);
