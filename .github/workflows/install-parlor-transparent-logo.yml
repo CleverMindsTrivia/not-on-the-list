@@ -1,0 +1,36 @@
+name: Install Party Parlor and transparent logo
+on:
+  push:
+    paths:
+      - 'NotOnTheListParlorAndTransparentLogo.zip'
+      - '.github/workflows/install-parlor-transparent-logo.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify and install illustrations
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip='NotOnTheListParlorAndTransparentLogo.zip'
+          test -f "$zip"
+          unzip -Z1 "$zip" | grep -Fxq 'public/assets/room-party-parlor.webp'
+          unzip -Z1 "$zip" | grep -Fxq 'public/assets/official-logo-transparent.png'
+          unzip -o "$zip" 'public/assets/room-party-parlor.webp' 'public/assets/official-logo-transparent.png'
+          python3 - <<'PY'
+          from pathlib import Path
+          client=Path('public/client.mjs')
+          source=client.read_text()
+          source=source.replace('/assets/official-logo.webp" alt="Not on the List — A Party Mystery Game"', '/assets/official-logo-transparent.png" alt="Not on the List — A Party Mystery Game"')
+          client.write_text(source)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/room-party-parlor.webp public/assets/official-logo-transparent.png public/client.mjs
+          if ! git diff --cached --quiet; then
+            git commit -m 'Install illustrated Party Parlor and transparent board logo'
+            git push
+          fi
