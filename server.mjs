@@ -17,7 +17,7 @@ const current=(lobby)=>lobby.game ? activePlayer(lobby.game) : null;
 const publicState=(lobby,seat)=>{
  const g=lobby.game, host=lobby.seats[0];
  const state={code:lobby.code,phase:g?.phase||'lobby',seats:lobby.seats.map(s=>({id:s.id,name:s.name,online:!!s.ws&&s.ws.readyState===WebSocket.OPEN})),hostId:host?.id,viewerId:seat?.id||null,display:!seat,rooms:ROOMS};
- if(g){state.game={phase:g.phase,guests:g.guests,players:g.players.map(p=>({id:p.id,name:p.name,alive:p.alive,draws:p.draws})),activeId:g.players[g.activeIndex].id,roll:g.roll,turn:g.turn,log:g.log.slice(0,20),winner:g.winner};
+ if(g){state.game={phase:g.phase,guests:g.guests,players:g.players.map(p=>({id:p.id,name:p.name,alive:p.alive,draws:p.draws})),activeId:g.players[g.activeIndex].id,roll:g.roll,turn:g.turn,log:g.log.slice(0,20),winner:g.winner,winnerCharacterId:g.phase==='over'&&g.winner!=null?g.players.find(p=>p.id===g.winner)?.characterId:null};
   if(seat){const p=g.players.find(p=>p.id===seat.id);state.private={characterId:p?.characterId||null,legalTargets:p?.id===current(lobby)?.id&&g.roll==='black'?eligibleTargets(g).map(x=>x.id):[],legalMoves:p?.id===current(lobby)?.id&&g.roll&&g.roll!=='black'?g.guests.filter(x=>x.status==='party').flatMap(x=>legalDestinations(g,x.id).map(dest=>({guestId:x.id,destination:dest}))):[]};}
  }
  return state;
