@@ -1,13 +1,13 @@
-/** Midnight Masquerade v0.2 — original independent local deduction game prototype.
+/** Not on the List v0.3 — family-first multiplayer deduction game.
  * Four-room map and compulsory colored movement are user-confirmed changes.
  * Specific connections, die probabilities and black-turn nuances are provisional
  * pending comparison with the user's printed game instructions.
  */
 export const ROOMS = [
-  { id: 'red', name: 'The Grand Ballroom', short: 'Ballroom', color: '#d65d66', label: 'CRIMSON', symbol: '♜', icon: '📚' },
-  { id: 'green', name: 'The Secret Study', short: 'Study', color: '#66ac82', label: 'JADE', symbol: '♧', icon: '🎱' },
-  { id: 'blue', name: 'The Moonlit Garden', short: 'Garden', color: '#6d9edb', label: 'SAPPHIRE', symbol: '✦', icon: '🥂' },
-  { id: 'yellow', name: 'The Velvet Lounge', short: 'Lounge', color: '#e4bf6e', label: 'GOLD', symbol: '❀', icon: '🌿' }
+  { id: 'red', name: 'The Grand Ballroom', short: 'Ballroom', color: '#d65d66', label: 'CRIMSON', symbol: '♜', icon: '🪩' },
+  { id: 'green', name: 'The Secret Study', short: 'Study', color: '#66ac82', label: 'JADE', symbol: '♧', icon: '🕵️' },
+  { id: 'blue', name: 'The Moonlit Garden', short: 'Garden', color: '#6d9edb', label: 'SAPPHIRE', symbol: '✦', icon: '🌙' },
+  { id: 'yellow', name: 'The Velvet Lounge', short: 'Lounge', color: '#e4bf6e', label: 'GOLD', symbol: '❀', icon: '🛋️' }
 ];
 // Orthogonal paths form a square board. There is NO playable central room.
 export const NEIGHBORS = {
@@ -96,7 +96,7 @@ export function endTurn(game) {
   if (alive.length <= 1) {
     game.phase = 'over';
     game.winner = alive[0]?.id ?? null;
-    game.log.unshift(alive.length ? `${alive[0].name} is the last masked guest standing!` : 'Nobody survived the masquerade.');
+    game.log.unshift(alive.length ? `${alive[0].name} is the last masked guest standing!` : 'Nobody is left on the guest list.');
     return;
   }
   let next = game.activeIndex;
