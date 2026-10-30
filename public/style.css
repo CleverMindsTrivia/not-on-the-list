@@ -211,3 +211,15 @@ header .logo.official-wordmark{display:flex!important;align-items:center!importa
 header .logo.official-wordmark img{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;object-fit:contain!important;object-position:left center!important;filter:drop-shadow(0 4px 5px #0502149c)!important}
 .hero.new-hero{background-image:url('/assets/official-start-banner.webp')!important;background-color:#25113a!important;background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important}
 @media(max-width:650px){header{min-height:70px!important;padding:8px 12px!important}header .logo.official-wordmark{width:min(220px,58vw)!important;min-height:50px!important}header .eyebrow{font-size:9px!important;letter-spacing:1px!important}}
+
+/* Official artwork in board footer; victory identity shown to all once game over */
+.board-footer{gap:14px!important;min-height:100px!important}
+.board-official-logo{display:block!important;width:min(340px,66%)!important;max-height:91px!important;object-fit:contain!important;object-position:center!important;flex:none!important}
+.winner-banner{padding:25px 20px!important}
+.winner-reveal{display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;margin:18px auto 0}
+.winner-reveal h2{font:900 clamp(18px,2.5vw,28px) Fredoka,sans-serif;color:#ffe39c}
+.winner-reveal p{color:#fff5ea!important;font-size:17px}
+.winner-card{display:flex;flex-direction:column;width:clamp(130px,20vw,205px);border:5px solid #ffe19d;border-radius:16px;background:#24142e;overflow:hidden;box-shadow:0 10px 22px #0008}
+.winner-card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.winner-card strong{padding:11px 4px;color:#fff4df;font:800 17px Fredoka,sans-serif}
+@media(max-width:650px){.board-footer{min-height:77px!important}.board-official-logo{max-height:66px!important;width:min(220px,78%)!important}.winner-reveal{gap:12px}}
