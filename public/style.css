@@ -36,3 +36,19 @@
 .tv .room{min-height:415px}.tv .guest{width:100%;max-width:105px}
 @media(max-width:780px){.mansion{gap:9px}.room{min-height:270px;padding:7px;border-width:2px;border-radius:14px}.room h3{font-size:clamp(12px,3vw,16px);padding:6px;margin-bottom:9px;max-width:calc(100% - 45px)}.room .room-count{font-size:10px;top:8px;right:6px;padding:4px}.room .guest-grid{gap:4px;grid-template-columns:repeat(3,minmax(0,1fr))}.room .guest{padding:2px;border-width:1px;border-radius:8px}.room .guest img{border-radius:6px}.room .guest span{font-size:9px;padding:3px 0 1px}}
 @media(min-width:781px) and (max-width:1120px){.room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* v0.5 cartoon party welcome-screen styling */
+header{background:linear-gradient(100deg,#25103f,#3e1755 56%,#141435);border-bottom:3px solid #e7b65d}
+.logo{font-family:Fredoka,sans-serif;font-size:clamp(20px,2.3vw,31px);color:#fff9df;text-shadow:2px 3px 0 #692c73}
+.hero{max-width:960px;min-height:400px;padding:140px 25px 45px;background:linear-gradient(180deg,#15123428,#1a1028c9 63%,#26103cf2),url('/assets/mansion.svg') center 44%/cover no-repeat;border:4px solid #ffcf74;box-shadow:0 15px 0 #130b20,0 22px 50px #0803149c}
+.hero:after{content:"✦  ★  ✦";display:block;color:#ffe18d;font-size:24px;letter-spacing:35px;margin-top:18px}
+.hero h1{font-weight:700;letter-spacing:-.045em;font-size:clamp(44px,7vw,92px);filter:drop-shadow(0 7px #2b144a)}
+.hero h1 span{color:#ffcc57}
+.hero p{font-size:clamp(16px,1.7vw,21px);line-height:1.5;font-weight:900;color:#fff3d3}
+.panels{max-width:960px;gap:22px}
+.panels .panel{position:relative;background:linear-gradient(145deg,#542369 0%,#2d204e 65%,#251837 100%);border:2px solid #f3c37e80;box-shadow:0 10px 0 #160c25,0 18px 38px #06040f7d}
+.panels .panel h2{color:#ffe4a0;font-size:clamp(26px,2.5vw,34px)}
+.panels .panel p{color:#f8e5f7}
+.panels button{border:2px solid #ffe9b5;box-shadow:0 5px 0 #24113b;font-family:Fredoka,sans-serif;font-size:19px;letter-spacing:.1px}
+.panels .primary{background:#f3478c}.panels .mint{background:#55dfca}
+@media(max-width:780px){.hero{min-height:0;padding:105px 15px 25px;border-width:3px}.hero:after{font-size:14px;letter-spacing:20px}.panels .panel h2{font-size:28px}.panels{gap:14px}}
