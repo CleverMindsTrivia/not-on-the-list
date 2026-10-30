@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" role="img" aria-label="Mad Scientist cartoon portrait">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#18bfae"/><stop offset=".54" stop-color="#155a91"/><stop offset="1" stop-color="#2a154a"/></linearGradient><radialGradient id="glow"><stop stop-color="#edff85" stop-opacity=".85"/><stop offset="1" stop-color="#2aeeca" stop-opacity="0"/></radialGradient><linearGradient id="coat" x2="0" y2="1"><stop stop-color="#fff9ef"/><stop offset="1" stop-color="#9ac3c7"/></linearGradient></defs>
+<rect width="480" height="600" rx="28" fill="url(#bg)"/><g opacity=".35" stroke="#7dfde0" stroke-width="3" fill="none"><path d="M0 83H480M0 210H480M0 370H480M60 0V600M420 0V600"/><circle cx="375" cy="165" r="84"/></g><circle cx="359" cy="183" r="125" fill="url(#glow)"/>
+<g fill="#97fff0"><circle cx="54" cy="72" r="7"/><circle cx="424" cy="86" r="11"/><circle cx="384" cy="296" r="8"/><path d="M92 142l8 19 19 7-19 7-8 19-8-19-19-7 19-7Z"/></g>
+<path d="M0 600Q22 431 128 405L350 405Q458 427 480 600" fill="#17213e"/>
+<path d="M54 600Q74 433 164 421L237 478 313 421Q402 443 421 600Z" fill="url(#coat)" stroke="#30364e" stroke-width="9"/>
+<path d="M153 423L238 506 189 600H90ZM323 423L238 506 294 600H391Z" fill="#e8fcf8" stroke="#607a94" stroke-width="7"/>
+<path d="M198 451h84l-7 149h-71Z" fill="#b7e9c1"/><path d="M235 470v128" stroke="#35566a" stroke-width="13"/><path d="M222 502h31" stroke="#eec84e" stroke-width="9"/>
+<path d="M113 178Q86 96 132 83Q97 28 162 50Q176 11 223 38Q255 -3 290 43Q359 21 335 91Q399 107 353 164L374 217 333 230 121 225Z" fill="#edfaff" stroke="#344057" stroke-width="10"/>
+<path d="M118 170Q154 110 212 133Q277 107 347 175L350 276Q332 381 239 403Q133 383 112 270Z" fill="#f3b68d" stroke="#3b2b42" stroke-width="10"/>
+<path d="M122 222Q82 173 111 143M335 221Q377 168 345 144" fill="none" stroke="#f8ffff" stroke-width="39" stroke-linecap="round"/>
+<path d="M127 208Q157 163 203 195M272 195Q310 163 347 208" fill="none" stroke="#343343" stroke-width="20" stroke-linecap="round"/>
+<g transform="rotate(-8 173 244)"><circle cx="172" cy="244" r="49" fill="#9ff6ed" fill-opacity=".35" stroke="#e0fff7" stroke-width="15"/><circle cx="172" cy="244" r="13" fill="#283244"/><circle cx="183" cy="230" r="7" fill="white"/></g>
+<g transform="rotate(9 301 244)"><circle cx="300" cy="244" r="49" fill="#9ff6ed" fill-opacity=".35" stroke="#e0fff7" stroke-width="15"/><circle cx="300" cy="244" r="13" fill="#283244"/><circle cx="313" cy="228" r="7" fill="white"/></g>
+<path d="M215 275Q242 284 263 274" stroke="#a96861" stroke-width="7" fill="none"/>
+<path d="M179 320Q232 385 297 315Q270 344 239 346Q206 344 179 320Z" fill="#6d2546" stroke="#58344d" stroke-width="6"/><path d="M204 329Q237 353 272 329" stroke="#fff7dc" stroke-width="13" fill="none"/>
+<path d="M114 340Q79 355 67 389M358 340Q397 351 405 390" fill="none" stroke="#e4f9fb" stroke-width="15" stroke-linecap="round"/>
+<g transform="translate(336 410) rotate(15)"><path d="M-16 -51h32v65l39 74q11 25-15 32h-80q-26-7-15-32l39-74Z" fill="#45fdd0" fill-opacity=".5" stroke="#d4fff3" stroke-width="11"/><path d="M-37 72Q0 45 37 72L50 102Q20 116-20 116L-49 102Z" fill="#b9ff40"/><circle cx="0" cy="82" r="13" fill="#f4f86b"/><circle cx="-23" cy="39" r="8" fill="#d2ff69"/><circle cx="15" cy="19" r="9" fill="#d2ff69"/></g>
+<path d="M14 584H466" stroke="#ffd879" stroke-width="12"/><rect x="10" y="10" width="460" height="580" rx="22" fill="none" stroke="#ffd879" stroke-width="11"/>
+</svg>
