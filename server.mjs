@@ -7,6 +7,8 @@ import { createGame, activePlayer, rollDie, moveGuest, eliminateGuest, sendGuest
 
 const PORT=Number(process.env.PORT||3000), root=resolve('public');
 const rooms=new Map();
+// Avoid repeating a player's costume across consecutive games while this server is running.
+const recentCostumes=new Map();
 const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const code=()=>Array.from({length:6},()=>chars[randomInt(chars.length)]).join('');
 const token=()=>randomBytes(24).toString('hex');
@@ -31,7 +33,22 @@ function handle(ws,msg){const action=msg.type;
  if(action==='reconnect'){const lobby=rooms.get(String(msg.code||'').toUpperCase());const seat=lobby?.seats.find(s=>s.token===msg.token);if(!seat)throw Error('Your saved session was not found. Rejoin before the game starts.');bind(ws,lobby,seat);return;}
  if(action==='watch'){const lobby=rooms.get(String(msg.code||'').trim().toUpperCase());if(!lobby)throw Error('Party not found.');bind(ws,lobby);return;}
  const meta=ws.meta,lobby=rooms.get(meta?.code),seat=lobby?.seats.find(s=>s.id===meta?.id);if(!lobby||!seat||seat.ws!==ws)throw Error('You must join as a player first.');
- if(action==='start'){if(lobby.seats[0]!==seat)throw Error('Only the host can start.');if(lobby.game)throw Error('The game has already started.');if(lobby.seats.length<2)throw Error('At least two players are required.');lobby.game=createGame(lobby.seats.map(s=>s.name));broadcast(lobby);return;}
+ if(action==='start'){if(lobby.seats[0]!==seat)throw Error('Only the host can start.');if(lobby.game)throw Error('The game has already started.');if(lobby.seats.length<2)throw Error('At least two players are required.');lobby.game=createGame(lobby.seats.map(s=>s.name),()=>randomInt(0x100000000)/0x100000000);
+ const game=lobby.game;
+ // Swap secret assignments when a player drew their immediately previous costume.
+ // Swap only player identities, never guest positions or the public deck.
+ for(let i=0;i<game.players.length;i++){
+  const p=game.players[i],prev=recentCostumes.get(p.name.toLocaleLowerCase());
+  if(prev!==p.characterId)continue;
+  const other=game.players.find((candidate,j)=>j>i&&candidate.characterId!==prev&&recentCostumes.get(candidate.name.toLocaleLowerCase())!==p.characterId);
+  if(other){const temp=p.characterId;p.characterId=other.characterId;other.characterId=temp;}
+  else {
+   const replacement=game.guests.find(g=>g.id!==prev&&!game.players.some(x=>x.characterId===g.id));
+   if(replacement)p.characterId=replacement.id;
+  }
+ }
+ for(const p of game.players)recentCostumes.set(p.name.toLocaleLowerCase(),p.characterId);
+ broadcast(lobby);return;}
  const g=lobby.game;if(!g||g.phase!=='playing')throw Error('There is no active game.');if(current(lobby)?.id!==seat.id)throw Error('It is not your turn.');
  if(action==='roll')rollDie(g);else if(action==='move')moveGuest(g,msg.guestId,msg.destination);else if(action==='eliminate')eliminateGuest(g,msg.guestId);else if(action==='sendHome')sendGuestHome(g);else throw Error('Unknown game action.');
  broadcast(lobby);
