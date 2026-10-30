@@ -2,7 +2,7 @@ name: Install approved official brand and Party Parlor
 on:
   push:
     paths:
-      - 'Not-on-the-List-Official-Brand-and-Parlor.zip'
+      - 'NotOnTheListArtwork.zip'
       - '.github/workflows/install-official-brand.yml'
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          zip='Not-on-the-List-Official-Brand-and-Parlor.zip'
+          zip='NotOnTheListArtwork.zip'
           test -f "$zip" || exit 0
           for name in official-start-banner official-logo room-party-parlor; do
             unzip -Z1 "$zip" | grep -Fxq "public/assets/$name.webp"
