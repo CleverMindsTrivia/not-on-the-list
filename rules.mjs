@@ -7,7 +7,7 @@ export const ROOMS = [
   { id: 'red', name: 'The Grand Ballroom', short: 'Ballroom', color: '#d65d66', label: 'CRIMSON', symbol: '♜', icon: '🪩' },
   { id: 'green', name: 'The Secret Study', short: 'Study', color: '#66ac82', label: 'JADE', symbol: '♧', icon: '🕵️' },
   { id: 'blue', name: 'The Moonlit Garden', short: 'Garden', color: '#6d9edb', label: 'SAPPHIRE', symbol: '✦', icon: '🌙' },
-  { id: 'yellow', name: 'The Velvet Lounge', short: 'Lounge', color: '#e4bf6e', label: 'GOLD', symbol: '❀', icon: '🛋️' }
+  { id: 'yellow', name: 'The Party Parlor', short: 'Parlor', color: '#e4bf6e', label: 'GOLD', symbol: '❀', icon: '🛋️' }
 ];
 // Orthogonal paths form a square board. There is NO playable central room.
 export const NEIGHBORS = {
