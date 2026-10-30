@@ -52,3 +52,28 @@ header{background:linear-gradient(100deg,#25103f,#3e1755 56%,#141435);border-bot
 .panels button{border:2px solid #ffe9b5;box-shadow:0 5px 0 #24113b;font-family:Fredoka,sans-serif;font-size:19px;letter-spacing:.1px}
 .panels .primary{background:#f3478c}.panels .mint{background:#55dfca}
 @media(max-width:780px){.hero{min-height:0;padding:105px 15px 25px;border-width:3px}.hero:after{font-size:14px;letter-spacing:20px}.panels .panel h2{font-size:28px}.panels{gap:14px}}
+
+/* v0.6: theatrical branded home screen. All forms remain real controls. */
+body{background:radial-gradient(ellipse at 12% 3%,#6c1e78 0,transparent 42%),radial-gradient(ellipse at 87% 28%,#184f82 0,transparent 41%),#170f30}
+header{border-bottom:2px solid #ffcf75;background:#15102e}
+.logo{font-size:clamp(21px,2.8vw,33px);font-weight:700;color:#fff;text-shadow:3px 3px 0 #5e258a}
+.logo em{color:#ffce55}
+.hero{min-height:455px;max-width:1040px;margin-top:23px;padding:172px 20px 35px;border:5px solid #f3be68;border-radius:28px;background:linear-gradient(180deg,#0d16321c 0%,#160c2a91 46%,#220d3bea 85%),url('/assets/mansion.svg') center 39%/cover no-repeat;box-shadow:0 12px 0 #09091b,0 24px 70px #000a;position:relative}
+.hero:before{content:"";position:absolute;inset:16px;border:2px solid #f5d59669;border-radius:19px;pointer-events:none}
+.hero-kicker{display:inline-block;padding:9px 19px;border:2px solid #ffe1a4;border-radius:30px;background:#261141ed;font-size:clamp(12px,1.6vw,17px);font-weight:900;letter-spacing:2.4px;color:#ffdfa3;box-shadow:0 5px #120720}
+.hero h1{font-family:Fredoka,sans-serif;font-size:clamp(45px,8vw,105px);line-height:1;margin:20px 0 9px;color:white;filter:drop-shadow(0 7px 0 #381253)}
+.hero h1 .title-not{color:#fff}
+.hero h1 span:not(.title-not):not(.title-list){font-size:.48em;display:inline-block;line-height:.9;color:#fff4dc;max-width:135px}
+.hero h1 .title-list{color:#ffd158;text-shadow:3px 5px 0 #ab2b5b}
+.hero p{max-width:810px;margin:13px auto;font-size:clamp(16px,2vw,23px);color:#ffebd3;text-shadow:0 3px 12px #000;font-weight:900}
+.hero:after{content:"";display:block;width:135px;height:5px;margin:21px auto 0;border-radius:5px;background:linear-gradient(90deg,transparent,#f7c871,transparent)}
+.panels{max-width:1040px;margin:30px auto;gap:22px}
+.panels .panel{border:3px solid #d5a76a;border-radius:25px;background:linear-gradient(150deg,#5b2067 0%,#331648 65%,#211037 100%);box-shadow:0 10px 0 #0f0920,0 20px 38px #08041499}
+.panels .panel:nth-child(2){background:linear-gradient(150deg,#103960,#18244f 62%,#151532)}
+.panels .panel h2{font:700 clamp(29px,3vw,39px) Fredoka,sans-serif;color:#ffe4a8;text-shadow:2px 3px #542249}
+.panels .panel p{color:#fff1de;font-size:16px}
+.panels input{background:#fff9ed;border:2px solid #f4deb8;border-radius:11px;min-height:55px}
+.panels button{border:2px solid #ffe5aa;box-shadow:0 5px 0 #160b26;font-size:19px;padding:15px 20px}
+.panels .primary{background:#ef2d75;color:white}
+.panels .mint{background:#18c3bd;color:#0e1742}
+@media(max-width:780px){.hero{min-height:310px;padding:108px 12px 28px;border-width:3px}.hero h1{font-size:clamp(39px,9vw,68px)}.hero h1 span:not(.title-not):not(.title-list){max-width:77px}.hero-kicker{letter-spacing:1.2px}.panels .panel{border-width:2px}}
