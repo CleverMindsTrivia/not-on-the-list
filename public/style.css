@@ -178,3 +178,22 @@ main{max-width:1160px;padding-top:24px}
 @media(max-width:1100px){.board-mansion .room .guest-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
 @media(max-width:800px){.board-mansion .room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.board-mansion .room .guest span{font-size:10px!important;min-height:31px!important}}
 @media(max-width:460px){.board-mansion .room .guest-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.board-mansion .room .guest span{font-size:10px!important;min-height:29px!important}}
+
+/* v0.11 — tabletop mansion with a branded lower rail */
+.official-wordmark{display:inline-flex!important;align-items:center!important;gap:5px!important;line-height:.84!important;font-family:Fredoka,sans-serif!important;transform:skew(-5deg);filter:drop-shadow(2px 4px 0 #0d0924)}
+.official-wordmark strong{font-size:clamp(26px,3vw,39px);font-weight:900;letter-spacing:-1.5px;color:#fff9f1;-webkit-text-stroke:1px #261443;text-shadow:3px 3px #3832aa}
+.official-wordmark strong:last-child{color:#ffcb46;text-shadow:3px 3px #a92956}
+.official-wordmark>span{font-size:clamp(11px,1.35vw,17px)!important;font-weight:900;line-height:.85;letter-spacing:-.5px;text-align:center;color:#ffe075;text-shadow:1px 2px #281443}
+.board-mansion{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto auto auto!important;gap:10px!important;background:linear-gradient(150deg,#9d643e,#eac17b 32%,#815137 68%,#ffd995)!important;border:8px ridge #e9bd75!important;box-shadow:inset 0 0 0 5px #3b2246,0 15px 40px #070518a1!important}
+.board-mansion .room{position:relative;min-width:0!important;overflow:hidden;border:4px solid #422942!important;border-radius:9px!important;box-shadow:inset 0 0 0 3px #f8d69a,0 3px 5px #190c2b70!important}
+.board-mansion .room::after{content:"";position:absolute;inset:0;border:1px solid #ffde9c77;pointer-events:none}
+.board-mansion .room h3{max-width:calc(100% - 78px);font-size:clamp(15px,1.4vw,19px)!important;padding:7px 9px!important}
+.board-mansion .room .guest span{overflow-wrap:anywhere!important;white-space:normal!important;line-height:1.08!important;text-overflow:clip!important}
+.board-footer{grid-column:1/-1;grid-row:3;position:relative;z-index:2;display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;min-height:71px;padding:10px 22px;border:4px double #f8dd96;border-radius:9px;background:linear-gradient(95deg,#24113b,#482063,#22113a);box-shadow:inset 0 0 0 2px #aa6c4a}
+.board-wordmark{display:flex;align-items:center;gap:4px;white-space:nowrap;transform:skew(-5deg);font-family:Fredoka,sans-serif;font-weight:900;text-shadow:2px 3px #0d0929}
+.board-wordmark b{font-size:clamp(22px,3vw,36px);color:#fff4ed}
+.board-wordmark b:last-child{color:#ffca4d}
+.board-wordmark small{font-size:12px;line-height:.8;text-align:center;color:#ffde7f;font-weight:900}
+.board-motto{font-size:clamp(9px,1.1vw,12px);font-weight:900;letter-spacing:1px;color:#ffecba;text-align:center}
+.board-center{display:none!important}
+@media(max-width:650px){.board-mansion{gap:5px!important;padding:5px!important;border-width:5px!important}.board-mansion .room{border-width:2px!important}.board-footer{gap:3px!important;padding:9px 4px!important;min-height:60px!important}.board-wordmark b{font-size:23px}.board-motto{font-size:8px;letter-spacing:0}.board-mansion .room h3{font-size:12px!important;max-width:none}}
