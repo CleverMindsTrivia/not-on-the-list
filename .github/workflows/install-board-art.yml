@@ -1,0 +1,48 @@
+name: Install illustrated board and welcome art
+on:
+  push:
+    paths:
+      - 'Not-on-the-List-Board-and-Welcome-Art.zip'
+      - '.github/workflows/install-board-art.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install approved illustrated room and welcome images
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip="Not-on-the-List-Board-and-Welcome-Art.zip"
+          test -f "$zip" || exit 0
+          for name in room-red room-green room-blue room-yellow welcome-illustration; do
+            unzip -Z1 "$zip" | grep -Fxq "public/assets/$name.webp"
+          done
+          unzip -o "$zip" 'public/assets/*.webp'
+          python3 - <<'PY'
+          from pathlib import Path
+          client=Path("public/client.mjs")
+          c=client.read_text()
+          for color in ("red","green","blue","yellow"):
+              c=c.replace(f"room-{color}.svg",f"room-{color}.webp")
+          client.write_text(c)
+          style=Path("public/style.css")
+          css=style.read_text()
+          css += """
+          /* Illustrated production room environments and matching title splash */
+          .room{background-image:linear-gradient(180deg,rgba(12,7,31,.80),rgba(13,7,28,.08) 44%,rgba(18,9,34,.67) 100%),var(--image)!important;background-size:cover!important;background-position:center center!important}
+          .hero{background:linear-gradient(180deg,rgba(14,8,31,.07),rgba(16,7,29,.04) 65%,rgba(21,10,40,.45)),url('/assets/welcome-illustration.webp') center/cover no-repeat!important;min-height:370px;padding:48px 18px!important}
+          .hero-kicker,.hero h1,.hero p,.hero:after{position:absolute!important;clip-path:inset(50%)!important;width:1px!important;height:1px!important;overflow:hidden!important;white-space:nowrap!important;padding:0!important;margin:0!important;border:0!important}
+          @media(max-width:780px){.hero{min-height:240px!important;background-position:center!important}}
+          """
+          style.write_text(css)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/room-*.webp public/assets/welcome-illustration.webp public/client.mjs public/style.css
+          if ! git diff --cached --quiet; then
+            git commit -m "Install approved illustrated mansion and welcome artwork"
+            git push
+          fi
