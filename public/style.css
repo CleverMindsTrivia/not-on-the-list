@@ -148,3 +148,23 @@ main{max-width:1160px;padding-top:24px}
 .tv .room{min-height:410px}
 @media(max-width:1140px){.room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:780px){.mansion{gap:8px}.room{padding:7px!important;min-height:275px!important}.room h3{font-size:13px!important;padding:6px 7px!important}.room .guest-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}.room .guest span{font-size:9px!important}}
+
+/* v0.9: a connected four-wing board, not four separate dashboard tiles */
+.board-mansion{position:relative!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;padding:13px!important;border:9px solid #c58d45;border-radius:34px!important;background:radial-gradient(circle at center,#f8d999 0 6%,#9f643b 8%,#362145 22%,#180d33 60%)!important;box-shadow:inset 0 0 0 4px #ffdf8c,0 13px 0 #10091e,0 20px 45px #090418b2}
+.board-mansion:before{content:"";position:absolute;inset:5px;border:2px dashed #edbd78a3;border-radius:22px;pointer-events:none}
+.board-mansion .room{border:3px solid #d5a461!important;border-radius:18px!important;margin:0;min-height:345px!important;z-index:1}
+.board-mansion .room:nth-of-type(1){border-top-left-radius:28px!important}
+.board-mansion .room:nth-of-type(2){border-top-right-radius:28px!important}
+.board-mansion .room:nth-of-type(3){border-bottom-left-radius:28px!important}
+.board-mansion .room:nth-of-type(4){border-bottom-right-radius:28px!important}
+.board-center{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-5deg);width:152px;height:113px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:13px;background:radial-gradient(ellipse at 20% 20%,#754c82,#2b1a48 78%);border:6px double #ffdb90;border-radius:47%;box-shadow:0 4px 0 #1a0d27,0 9px 20px #0009;pointer-events:none;text-align:center}
+.board-center span{font:700 15px/1.05 Fredoka,sans-serif;color:#fff0c8;text-shadow:0 2px #301434}
+.board-center small{font:900 9px Nunito,sans-serif;letter-spacing:1.6px;color:#ffd480;margin-top:7px}
+.board-mansion .room .room-count{font-size:11px}
+.board-mansion .room h3{font-size:clamp(14px,1.35vw,19px)!important;max-width:calc(100% - 74px);line-height:1.15!important;padding:7px 10px!important}
+.board-mansion .room .guest-grid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important}
+.board-mansion .room .guest{min-width:0!important;overflow:visible!important;padding:2px!important}
+.board-mansion .room .guest span{white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;text-overflow:clip!important;line-height:1.07!important;min-height:26px;display:flex!important;align-items:center;justify-content:center;font-size:clamp(8px,.71vw,11px)!important;padding:3px 0 4px!important}
+.board-mansion .room .guest img{width:100%!important;aspect-ratio:4/5!important;object-fit:cover!important}
+@media(max-width:1100px){.board-mansion .room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.board-center{width:119px;height:90px}.board-center span{font-size:12px}}
+@media(max-width:620px){.board-mansion{gap:6px!important;padding:6px!important;border-width:5px;border-radius:20px!important}.board-mansion .room{padding:5px!important;min-height:260px!important;border-width:2px!important;border-radius:12px!important}.board-mansion .room .guest-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.board-center{width:82px;height:67px;border-width:3px;padding:4px}.board-center span{font-size:9px}.board-center small{font-size:6px;letter-spacing:0}.board-mansion .room h3{font-size:12px!important;max-width:none;padding:5px!important}.board-mansion .room .room-count{position:relative;float:none;display:inline-block;top:auto;right:auto;font-size:9px;padding:2px 5px;margin-bottom:5px}.board-mansion .room .guest span{font-size:9px!important;min-height:24px}}
