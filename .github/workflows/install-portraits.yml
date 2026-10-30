@@ -1,0 +1,37 @@
+name: Install cartoon guest portraits
+on:
+  push:
+    paths:
+      - 'not_on_the_list_20_cartoon_portraits.zip'
+      - '.github/workflows/install-portraits.yml'
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Unpack verified portrait ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f not_on_the_list_20_cartoon_portraits.zip || exit 0
+          unzip -Z1 not_on_the_list_20_cartoon_portraits.zip | grep -Eq '^public/assets/guests/astronaut\.webp$'
+          unzip -o not_on_the_list_20_cartoon_portraits.zip 'public/assets/guests/*.webp'
+          count=$(find public/assets/guests -maxdepth 1 -name '*.webp' | wc -l)
+          test "$count" -eq 20
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/client.mjs')
+          s=p.read_text()
+          s=s.replace("encodeURIComponent(id)}.svg", "encodeURIComponent(id)}.webp")
+          p.write_text(s)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/guests/*.webp public/client.mjs
+          if ! git diff --cached --quiet; then
+            git commit -m "Install polished cartoon guest illustrations"
+            git push
+          fi
