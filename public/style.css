@@ -134,3 +134,17 @@ main{max-width:1160px;padding-top:24px}
 .black-roll-options .option-card p{margin:7px 0 12px;color:#f5e8fa;line-height:1.4}
 .black-roll-options .option-card button{background:#55d9bb;color:#17243d;font-size:17px}
 .black-roll-options .option-card small{display:block;margin-top:9px;color:#e4d9eb}
+
+/* v0.8 — consistent illustrated mystery board */
+.mansion{gap:18px}
+.room{background-image:linear-gradient(180deg,#100a2375 0%,#100a2312 33%,#100a2370 100%),var(--image)!important;background-position:center!important;border:3px solid var(--accent)!important;box-shadow:0 7px 0 #0b081c,0 15px 35px #0704129c!important;border-radius:19px!important;min-height:360px}
+.room h3{font:700 clamp(18px,1.7vw,25px) Fredoka,sans-serif!important;color:#fff8e8!important;text-shadow:0 3px 3px #180a20!important;background:linear-gradient(90deg,#241238f0,#241238cf)!important;border:2px solid #f9d58b!important;box-shadow:0 5px 0 #130b25!important;padding:10px 14px!important;border-radius:12px!important}
+.room .guest-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:7px!important}
+.room .guest{width:100%!important;max-width:none!important;border:2px solid #edc57c!important;border-radius:11px!important;padding:2px!important;background:#1a112de8!important;box-shadow:0 4px 0 #0f091d!important}
+.room .guest img{aspect-ratio:4/5!important;object-fit:cover!important;object-position:center top!important}
+.room .guest span{font:800 clamp(9px,.78vw,12px) Nunito,sans-serif!important;padding:5px 1px!important}
+.side .panel{background:linear-gradient(150deg,#312044,#1b1535)!important;border:1px solid #d7af7e7a!important;box-shadow:0 6px 0 #0b0920!important}
+.side .panel h2{color:#ffe5ac}
+.tv .room{min-height:410px}
+@media(max-width:1140px){.room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:780px){.mansion{gap:8px}.room{padding:7px!important;min-height:275px!important}.room h3{font-size:13px!important;padding:6px 7px!important}.room .guest-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}.room .guest span{font-size:9px!important}}
