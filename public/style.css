@@ -20,3 +20,19 @@
 @keyframes winner-appear{from{opacity:.2;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
 @media(max-width:780px){.winner-banner{padding:24px 12px}}
 @media(prefers-reduced-motion:reduce){.winner-banner{animation:none}}
+
+/* v0.4: scene-first board, restrained room labels, larger recognizable guests */
+.mansion{gap:16px;align-content:start}
+.room{overflow:hidden;isolation:isolate;min-height:350px;padding:14px;border-width:3px;border-radius:20px;background:linear-gradient(180deg,rgba(12,12,29,.70),rgba(18,11,35,.25) 43%,rgba(18,11,35,.64) 100%),var(--image) center/cover no-repeat!important;box-shadow:inset 0 0 0 2px #ffffff3b,0 14px 28px #08061670}
+.room::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0d0d24bd 0,#0c0a1e0a 35%,#170f2c67 100%);pointer-events:none}
+.room h3{position:relative;display:inline-block;max-width:calc(100% - 82px);padding:9px 12px;margin:0 0 13px;background:#1b1436e8;border:1px solid #f0c780a6;border-radius:10px;box-shadow:0 3px 15px #0007;font-size:clamp(16px,1.5vw,21px);line-height:1.2;color:#fff6df;text-shadow:0 2px 2px #000}
+.room .room-count{position:absolute;right:12px;top:14px;float:none;background:#100b23e8;border:1px solid #e5c27c77;color:#fff0c6}
+.room .guest-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:start}
+.room .guest{width:100%;max-width:95px;justify-self:center;padding:3px;background:#21152bea;border:2px solid #ffdf9daa;border-radius:12px;box-shadow:0 5px 10px #000b;transition:transform .12s,border-color .12s}
+.room .guest img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px 8px 3px 3px;background:#513d6c}
+.room .guest span{font-size:clamp(9px,.8vw,12px);font-weight:900;letter-spacing:.05px;color:#fff8e9;padding:5px 1px 2px}
+.room .guest.selectable:hover{transform:translateY(-3px)}
+.room .guest.selected{border-color:#fff3b0;background:#774078}
+.tv .room{min-height:415px}.tv .guest{width:100%;max-width:105px}
+@media(max-width:780px){.mansion{gap:9px}.room{min-height:270px;padding:7px;border-width:2px;border-radius:14px}.room h3{font-size:clamp(12px,3vw,16px);padding:6px;margin-bottom:9px;max-width:calc(100% - 45px)}.room .room-count{font-size:10px;top:8px;right:6px;padding:4px}.room .guest-grid{gap:4px;grid-template-columns:repeat(3,minmax(0,1fr))}.room .guest{padding:2px;border-width:1px;border-radius:8px}.room .guest img{border-radius:6px}.room .guest span{font-size:9px;padding:3px 0 1px}}
+@media(min-width:781px) and (max-width:1120px){.room .guest-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
