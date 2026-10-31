@@ -1,0 +1,57 @@
+name: Install 20 illustrated standees
+on:
+  push:
+    paths:
+      - 'NotOnTheList20StandeesGithub.zip'
+      - '.github/workflows/install-standees.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Verify, unpack and connect standee assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip='NotOnTheList20StandeesGithub.zip'
+          test -f "$zip"
+          names=(princess knight ninja robot ballerina flapper witch astronaut mad-scientist detective mermaid pirate vampire jester fairy cowboy chef diva superhero wizard)
+          for name in "${names[@]}"; do
+            unzip -Z1 "$zip" | grep -Fxq "public/assets/standees/${name}.png"
+          done
+          mkdir -p public/assets/standees
+          unzip -o "$zip" 'public/assets/standees/*.png'
+          test "$(find public/assets/standees -maxdepth 1 -name '*.png' | wc -l)" -eq 20
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/client.mjs')
+          s=p.read_text()
+          needle='<span class="standee-art"><img loading="lazy" src="${guestImg(x.id)}" alt=""></span>'
+          replacement='<span class="standee-art"><img loading="lazy" src="/assets/standees/${encodeURIComponent(x.id)}.png" alt=""></span>'
+          if needle not in s and replacement not in s:
+              raise SystemExit('Standee markup not found')
+          p.write_text(s.replace(needle,replacement))
+          p=Path('public/style.css')
+          s=p.read_text()
+          s += """
+          /* Actual transparent figure art replaces pseudo cardboard shapes */
+          .tabletop-board .standee-art{height:clamp(84px,12vw,170px)!important;width:100%!important;overflow:visible!important;clip-path:none!important;filter:none!important}
+          .tabletop-board .standee-art img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:bottom center!important}
+          .tabletop-board .standee-foot,.tabletop-board .standee-label{display:none!important}
+          @media(max-width:560px){.tabletop-board .standee-art{height:75px!important}}
+          """
+          p.write_text(s) if False else None
+          Path('public/style.css').write_text(s)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/standees public/client.mjs public/style.css
+          if ! git diff --cached --quiet; then
+            git commit -m 'Install twenty transparent character standees and switch game pieces'
+            git push
+          fi
