@@ -423,3 +423,20 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 
 /* Editable next-round lobby */
 .seat-remove{display:block;margin-top:7px;padding:5px 10px;border-radius:8px;font-size:12px;background:#81334b;color:#fff2e5;border:1px solid #d3a28c}
+
+/* Color-coded rooms retain their original artwork. Die result stays above board. */
+.board-room-red{box-shadow:inset 0 0 0 3px #ff8d91,inset 0 0 70px #df315344,0 6px 12px #180b2588!important;border-color:#e66c73!important}
+.board-room-green{box-shadow:inset 0 0 0 3px #7ae9b1,inset 0 0 70px #1caa6c40,0 6px 12px #180b2588!important;border-color:#55b890!important}
+.board-room-blue{box-shadow:inset 0 0 0 3px #90b9ff,inset 0 0 70px #326bed44,0 6px 12px #180b2588!important;border-color:#6d9de2!important}
+.board-room-yellow{box-shadow:inset 0 0 0 3px #efc9fc,inset 0 0 70px #b347c044,0 6px 12px #180b2588!important;border-color:#e3a7e4!important}
+.roll-spotlight{position:relative;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:7px 15px;min-height:65px;padding:12px 20px;margin:6px 0 14px;border:3px solid #cda973;border-radius:16px;background:#281838;color:#fff8ec;box-shadow:0 4px 0 #120a21;text-align:center}
+.roll-spotlight-label{font:900 11px Nunito,sans-serif;letter-spacing:1.5px;opacity:.85}.roll-spotlight strong{font:900 clamp(18px,2.1vw,29px) Fredoka,sans-serif}.roll-spotlight-detail{font:800 12px Nunito,sans-serif}
+.roll-spotlight.roll-red{border-color:#ff9199;background:linear-gradient(110deg,#72263e,#34162f)}
+.roll-spotlight.roll-green{border-color:#72e6b7;background:linear-gradient(110deg,#155c4a,#173b38)}
+.roll-spotlight.roll-blue{border-color:#9dbdff;background:linear-gradient(110deg,#213f82,#1e3058)}
+.roll-spotlight.roll-yellow{border-color:#eec0fb;background:linear-gradient(110deg,#6e3475,#38234c)}
+.roll-spotlight.roll-black{border-color:#e0cfaa;background:linear-gradient(110deg,#13131f,#383342)}
+.standee.selectable{touch-action:none;cursor:grab}.dragging-guest .standee.selectable{cursor:grabbing}
+.drag-standee-ghost{position:fixed;z-index:9999;width:95px;height:125px;object-fit:contain;transform:translate(-50%,-85%);pointer-events:none;filter:drop-shadow(0 8px 8px #06020ab3)}
+.board-room.drop-allowed{outline:5px dashed #fff5a6;outline-offset:-8px;filter:brightness(1.17)}
+@media(max-width:780px){.roll-spotlight{position:sticky;top:0;z-index:8;min-height:48px;padding:8px 10px;margin:4px 0 8px;gap:4px 9px;border-width:2px}.roll-spotlight strong{font-size:16px}.roll-spotlight-detail{font-size:10px}.roll-spotlight-label{font-size:9px}.drag-standee-ghost{width:72px;height:100px}}
