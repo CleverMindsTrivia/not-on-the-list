@@ -10,7 +10,7 @@ const rooms=new Map();
 // Avoid repeating a player's costume across consecutive games while this server is running.
 const recentCostumes=new Map();
 const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-const code=()=>Array.from({length:6},()=>chars[randomInt(chars.length)]).join('');
+const code=()=>Array.from({length:4},()=>chars[randomInt(chars.length)]).join('');
 const token=()=>randomBytes(24).toString('hex');
 const send=(ws,type,data={})=>{ if(ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify({type,...data})); };
 const current=(lobby)=>lobby.game ? activePlayer(lobby.game) : null;
@@ -49,6 +49,7 @@ function handle(ws,msg){const action=msg.type;
  }
  for(const p of game.players)recentCostumes.set(p.name.toLocaleLowerCase(),p.characterId);
  broadcast(lobby);return;}
+ if(action==='newGame'){if(lobby.seats[0]!==seat)throw Error('Only the host can start a new game.');if(!lobby.game||lobby.game.phase!=='over')throw Error('Finish the current game first.');lobby.game=null;broadcast(lobby);return;}
  if(action==='endGame'){if(lobby.seats[0]!==seat)throw Error('Only the host can end the game.');if(!lobby.game||lobby.game.phase!=='playing')throw Error('No active game to end.');lobby.game.phase='over';lobby.game.winner=null;lobby.game.roll=null;lobby.game.log.unshift('The host ended the party. No winner was declared.');broadcast(lobby);return;}
  const g=lobby.game;if(!g||g.phase!=='playing')throw Error('There is no active game.');if(current(lobby)?.id!==seat.id)throw Error('It is not your turn.');
  if(action==='roll')rollDie(g);else if(action==='move')moveGuest(g,msg.guestId,msg.destination);else if(action==='eliminate')eliminateGuest(g,msg.guestId);else if(action==='sendHome')sendGuestHome(g);else throw Error('Unknown game action.');
