@@ -463,3 +463,8 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 .board-roll-status.roll-black .draw-top-button{background:linear-gradient(135deg,#f3c05e,#f9e6af)!important;color:#251236!important;border:2px solid #fff0c2!important;box-shadow:0 4px 0 #10091b;font-weight:900}
 .board-roll-status .draw-top-button:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:650px){.board-roll-status{top:0;padding:10px 8px!important}.board-roll-status .draw-top-button{width:100%;max-width:300px}}
+
+/* Solo QA entry and roll shortcut */
+.test-launch{max-width:550px;margin:18px auto!important;border:2px solid #f4c579!important;background:linear-gradient(135deg,#392051,#1c2947)!important}
+.test-launch h2{color:#ffe1a0}
+.board-roll-status button[data-action='testBlackRoll']{background:#21152f!important;color:#fff3d3!important;border:2px solid #edc778!important}
