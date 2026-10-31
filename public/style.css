@@ -386,3 +386,27 @@ filter:drop-shadow(0 2px 2px #0b0926c9) drop-shadow(0 0 3px #fff1ceba) brightnes
 .rematch-panel strong{font:800 20px Fredoka,sans-serif}
 .rematch-panel p{flex-basis:100%;margin:0;color:#e8d4ee;font-size:13px}
 @media(max-width:560px){.rematch-panel{padding:12px;gap:8px}.rematch-panel button{width:100%}}
+
+/* Guest visibility: physical standee separation from the room illustration */
+.tabletop-board .standee{cursor:pointer!important;isolation:isolate}
+.tabletop-board .standee:before{
+content:"";position:absolute;z-index:-1;left:1%;right:1%;top:12%;bottom:4%;
+border-radius:50% 50% 38% 38%;
+background:radial-gradient(ellipse at 50% 58%,#fff4d9b8 0%,#ffe5b57d 38%,#ffe7bc34 64%,transparent 78%);
+filter:blur(5px);pointer-events:none;
+}
+.tabletop-board .standee-art{position:relative;z-index:1}
+.tabletop-board .standee-art img{
+filter:drop-shadow(0 1px 1px #fff4db) drop-shadow(0 3px 2px #080517e0) drop-shadow(0 0 3px #fff2cf) brightness(1.12) saturate(1.1)!important
+}
+.tabletop-board .standee:focus-visible{outline:3px solid #ffe59d;border-radius:10px}
+.guest-inspector{position:fixed;z-index:999;inset:0;display:grid;place-items:center;padding:18px;background:#070410d9;backdrop-filter:blur(7px)}
+.guest-inspector-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(92vw,410px);max-height:86dvh;padding:14px 16px 22px;border:3px solid #e8c17e;border-radius:24px;background:radial-gradient(circle at 50% 35%,#714d72,#291634 75%);box-shadow:0 20px 80px #000b;text-align:center}
+.guest-inspector-card img{max-width:100%;height:min(57dvh,460px);object-fit:contain;filter:drop-shadow(0 10px 9px #0007)}
+.guest-inspector-card h2{font:900 28px Fredoka,sans-serif;color:#fff0cb;margin:8px 0}
+.guest-inspector-card p{margin:0;color:#e9d4ec}
+.guest-inspector-close{position:absolute;top:10px;right:10px;z-index:2;background:#f0d1a2;color:#291338;border-radius:50%;font-size:27px;width:43px;height:43px;display:grid;place-items:center;padding:0}
+@media(max-width:560px){
+body:not(.tv) .tabletop-board .standee:before{left:-16%;right:-16%;top:5%;bottom:0;filter:blur(3px);background:radial-gradient(ellipse,#ffefceb5 0%,#f9e5ba8c 44%,transparent 81%)}
+body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9ed) drop-shadow(0 3px 2px #050414fa) brightness(1.17) saturate(1.13)!important}
+}
