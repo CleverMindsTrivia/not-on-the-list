@@ -457,3 +457,9 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 .standee.dragging{opacity:.6;transform:translateY(-8px) scale(1.05);cursor:grabbing}
 .board-room.drop-zone{outline:4px dashed #ffed9b;outline-offset:-10px}
 @media(max-width:600px){.board-roll-status{position:sticky;top:0;z-index:30;margin:4px 0 8px;padding:8px;font-size:14px;flex-wrap:wrap}}
+
+/* Top-level dice and card action, visible without scrolling to sidebar */
+.board-roll-status{position:sticky;top:0;z-index:60;max-width:1450px;margin:10px auto 14px!important;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.board-roll-status.roll-black .draw-top-button{background:linear-gradient(135deg,#f3c05e,#f9e6af)!important;color:#251236!important;border:2px solid #fff0c2!important;box-shadow:0 4px 0 #10091b;font-weight:900}
+.board-roll-status .draw-top-button:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:650px){.board-roll-status{top:0;padding:10px 8px!important}.board-roll-status .draw-top-button{width:100%;max-width:300px}}
