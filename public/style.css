@@ -420,3 +420,6 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
   background:radial-gradient(ellipse,rgba(255,255,255,.96) 0%,rgba(255,255,255,.84) 40%,rgba(255,255,255,.36) 66%,transparent 84%)!important;
  }
 }
+
+/* Editable next-round lobby */
+.seat-remove{display:block;margin-top:7px;padding:5px 10px;border-radius:8px;font-size:12px;background:#81334b;color:#fff2e5;border:1px solid #d3a28c}
