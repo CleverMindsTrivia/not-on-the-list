@@ -117,17 +117,21 @@ export function moveGuest(game, id, destination) {
 }
 export function sendGuestHome(game) {
   const player = activePlayer(game);
-  if (game.phase !== 'playing' || game.roll !== 'black' || !player.alive || player.draws >= 3 || game.deck.length === 0)
-    throw new Error('Sending a guest home is unavailable.');
-  // Drawing is independent of location and must never select a player identity.
+  if (game.phase !== 'playing' || game.roll !== 'black' || !player.alive || player.draws >= 3)
+    throw new Error('Draw a Card is only available on your black roll (up to three uses per player).');
+  // A prior elimination can remove an unassigned guest without removing it
+  // from the draw deck. Prune stale entries before drawing.
   const assigned = new Set(game.players.map(p => p.characterId));
-  const id = game.deck[0];
+  game.deck = game.deck.filter(id => {
+    const guest = guestFor(game, id);
+    return guest && guest.status === 'party' && !assigned.has(id);
+  });
+  if (!game.deck.length) throw new Error('No unassigned guests are left to draw.');
+  const id = game.deck.shift();
   const guest = guestFor(game, id);
-  if (!guest || guest.status !== 'party' || assigned.has(id)) throw new Error('The guest deck is out of sync.');
-  game.deck.shift();
   guest.status = 'home';
   player.draws++;
-  game.log.unshift(`${player.name} sent the ${guest.name} home (${player.draws}/3 passes).`);
+  game.log.unshift(`${player.name} drew the ${guest.name} card and sent them home (${player.draws}/3 passes).`);
   endTurn(game);
   return guest;
 }
