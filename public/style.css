@@ -307,3 +307,61 @@ body:not(.tv) .mobile-fold .fold-content{padding:0 14px 14px}
 body:not(.tv) .mobile-fold .seat{min-height:48px;padding:9px;font-size:13px}
 }
 @media(min-width:561px){.mobile-fold>summary{display:none}.mobile-fold .fold-content{display:block!important}}
+
+/* Adaptive board-game figures; room populations 1 through 20 */
+.tabletop-board .mansion-courtyard{display:none!important}
+.tabletop-board .standee-rack{position:absolute;inset:37px 6px 5px;display:block;pointer-events:none}
+.tabletop-board .standee{position:absolute;left:calc(var(--slot-x,50) * 1%);top:calc(var(--slot-y,68) * 1%);width:var(--piece-width,20%);height:auto;transform:translate(-50%,-50%);pointer-events:auto;flex:none;max-width:none;z-index:4}
+.tabletop-board .standee.selectable:hover,.tabletop-board .standee.selected{transform:translate(-50%,calc(-50% - 8px));z-index:8}
+.tabletop-board .standee-art{height:var(--piece-height,100px)!important}
+.tabletop-board .board-room .standee-rack .standee:nth-child(1){--slot-x:23;--slot-y:66}
+.tabletop-board .board-room .standee-rack .standee:nth-child(2){--slot-x:77;--slot-y:68}
+.tabletop-board .board-room .standee-rack .standee:nth-child(3){--slot-x:49;--slot-y:38}
+.tabletop-board .board-room .standee-rack .standee:nth-child(4){--slot-x:35;--slot-y:91}
+.tabletop-board .board-room .standee-rack .standee:nth-child(5){--slot-x:67;--slot-y:91}
+.tabletop-board .board-room .standee-rack .standee:nth-child(6){--slot-x:12;--slot-y:35}
+.tabletop-board .board-room .standee-rack .standee:nth-child(7){--slot-x:86;--slot-y:36}
+.tabletop-board .board-room .standee-rack .standee:nth-child(8){--slot-x:50;--slot-y:69}
+.tabletop-board .board-room[data-count="1"] .standee:nth-child(1){--slot-x:50;--slot-y:67}
+.tabletop-board .board-room[data-count="2"] .standee:nth-child(1){--slot-x:32;--slot-y:69}
+.tabletop-board .board-room[data-count="2"] .standee:nth-child(2){--slot-x:70;--slot-y:69}
+.tabletop-board .board-room[data-count="3"] .standee:nth-child(1){--slot-x:25;--slot-y:75}
+.tabletop-board .board-room[data-count="3"] .standee:nth-child(2){--slot-x:75;--slot-y:75}
+.tabletop-board .board-room[data-count="3"] .standee:nth-child(3){--slot-x:50;--slot-y:39}
+.tabletop-board .board-room[data-count="4"] .standee:nth-child(1){--slot-x:25;--slot-y:39}
+.tabletop-board .board-room[data-count="4"] .standee:nth-child(2){--slot-x:75;--slot-y:39}
+.tabletop-board .board-room[data-count="4"] .standee:nth-child(3){--slot-x:25;--slot-y:82}
+.tabletop-board .board-room[data-count="4"] .standee:nth-child(4){--slot-x:75;--slot-y:82}
+.tabletop-board .board-room[data-count="5"] .standee:nth-child(1){--slot-x:18;--slot-y:75}
+.tabletop-board .board-room[data-count="5"] .standee:nth-child(2){--slot-x:50;--slot-y:75}
+.tabletop-board .board-room[data-count="5"] .standee:nth-child(3){--slot-x:82;--slot-y:75}
+.tabletop-board .board-room[data-count="5"] .standee:nth-child(4){--slot-x:32;--slot-y:35}
+.tabletop-board .board-room[data-count="5"] .standee:nth-child(5){--slot-x:68;--slot-y:35}
+.tabletop-board .board-room[data-count="1"] .standee,.tabletop-board .board-room[data-count="2"] .standee{--piece-width:27%;--piece-height:125px}
+.tabletop-board .board-room[data-count="3"] .standee,.tabletop-board .board-room[data-count="4"] .standee{--piece-width:22%;--piece-height:105px}
+.tabletop-board .board-room[data-count="5"] .standee,.tabletop-board .board-room[data-count="6"] .standee{--piece-width:20%;--piece-height:95px}
+.tabletop-board .board-room[data-count="7"] .standee,.tabletop-board .board-room[data-count="8"] .standee{--piece-width:17%;--piece-height:80px}
+.tabletop-board .board-room[data-count="9"] .standee,.tabletop-board .board-room[data-count="10"] .standee{--piece-width:15%;--piece-height:70px}
+.tabletop-board .board-room[data-count="11"] .standee,.tabletop-board .board-room[data-count="12"] .standee{--piece-width:13%;--piece-height:64px}
+.tabletop-board .board-room[data-count="13"] .standee,.tabletop-board .board-room[data-count="14"] .standee,.tabletop-board .board-room[data-count="15"] .standee,.tabletop-board .board-room[data-count="16"] .standee,.tabletop-board .board-room[data-count="17"] .standee,.tabletop-board .board-room[data-count="18"] .standee,.tabletop-board .board-room[data-count="19"] .standee,.tabletop-board .board-room[data-count="20"] .standee{--piece-width:11%;--piece-height:55px}
+.tabletop-board .board-room[data-count="9"] .standee-rack,.tabletop-board .board-room[data-count="10"] .standee-rack,.tabletop-board .board-room[data-count="11"] .standee-rack,.tabletop-board .board-room[data-count="12"] .standee-rack,.tabletop-board .board-room[data-count="13"] .standee-rack,.tabletop-board .board-room[data-count="14"] .standee-rack,.tabletop-board .board-room[data-count="15"] .standee-rack,.tabletop-board .board-room[data-count="16"] .standee-rack,.tabletop-board .board-room[data-count="17"] .standee-rack,.tabletop-board .board-room[data-count="18"] .standee-rack,.tabletop-board .board-room[data-count="19"] .standee-rack,.tabletop-board .board-room[data-count="20"] .standee-rack{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:33%;align-items:center}
+.tabletop-board .board-room[data-count="9"] .standee,.tabletop-board .board-room[data-count="10"] .standee,.tabletop-board .board-room[data-count="11"] .standee,.tabletop-board .board-room[data-count="12"] .standee,.tabletop-board .board-room[data-count="13"] .standee,.tabletop-board .board-room[data-count="14"] .standee,.tabletop-board .board-room[data-count="15"] .standee,.tabletop-board .board-room[data-count="16"] .standee,.tabletop-board .board-room[data-count="17"] .standee,.tabletop-board .board-room[data-count="18"] .standee,.tabletop-board .board-room[data-count="19"] .standee,.tabletop-board .board-room[data-count="20"] .standee{position:static;transform:none;width:100%}
+.mobile-game-dock{display:none}
+@media(max-width:560px){
+body:not(.tv){padding-bottom:76px}
+body:not(.tv) .tabletop-board .standee-rack{inset:27px 1px 5px!important}
+body:not(.tv) .tabletop-board .standee{width:var(--piece-width,20%)!important}
+body:not(.tv) .tabletop-board .standee-art{height:var(--piece-height,68px)!important}
+body:not(.tv) .tabletop-board .board-room[data-count="1"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="2"] .standee{--piece-height:87px;--piece-width:30%}
+body:not(.tv) .tabletop-board .board-room[data-count="3"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="4"] .standee{--piece-height:70px;--piece-width:25%}
+body:not(.tv) .tabletop-board .board-room[data-count="5"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="6"] .standee{--piece-height:61px;--piece-width:21%}
+body:not(.tv) .tabletop-board .board-room[data-count="7"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="8"] .standee{--piece-height:54px;--piece-width:18%}
+body:not(.tv) .tabletop-board .board-room[data-count="9"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="10"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="11"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="12"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="13"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="14"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="15"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="16"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="17"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="18"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="19"] .standee,body:not(.tv) .tabletop-board .board-room[data-count="20"] .standee{--piece-height:40px}
+body:not(.tv) .mobile-game-dock{display:flex;position:fixed;z-index:100;left:8px;right:8px;bottom:calc(6px + env(safe-area-inset-bottom));align-items:center;gap:7px;padding:8px;border:2px solid #e5bb74;border-radius:16px;background:#29143df5;box-shadow:0 5px 24px #000c;backdrop-filter:blur(12px)}
+.mobile-game-dock .dock-turn{flex:1;min-width:0;font:800 12px Nunito,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff4dc}
+.mobile-game-dock button{font:900 12px Nunito,sans-serif;padding:10px 8px;border-radius:9px;white-space:nowrap}
+.mobile-game-dock .dock-roll{background:#f8d18b;color:#28113d}
+.mobile-game-dock .dock-secret{background:#51316d;color:#fff3dd;border:1px solid #d5a870}
+.mobile-game-dock .dock-wait{font-size:11px;color:#d3bdde}
+#party-action,#secret-costume-panel{scroll-margin-top:25px}
+}
