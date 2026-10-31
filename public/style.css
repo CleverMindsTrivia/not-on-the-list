@@ -265,3 +265,9 @@ header .logo.official-wordmark img{display:block!important;width:100%!important;
 @media(min-width:1450px){.tabletop-board{aspect-ratio:1.55/1}}
 @media(max-width:900px){.tabletop-board{gap:12px 22px;min-height:650px;padding:10px}.board-room{border-width:4px}.room-plaque{font-size:13px;padding:5px 7px;gap:5px}.room-plaque span{font-size:9px}.standee-rack{inset:auto 4px 8px;gap:2px}.standee-art{height:clamp(57px,12vw,100px)}.standee-label{font-size:9px;min-height:26px}.mansion-courtyard{border-width:7px}}
 @media(max-width:560px){.tabletop-board{gap:8px 16px;min-height:580px;aspect-ratio:auto;padding:5px;border-width:4px}.board-room{border-width:3px;border-radius:12px}.room-plaque{font-size:11px;max-width:100%;margin:5px auto;padding:4px}.room-plaque span{display:none}.standee-rack{gap:1px;inset:auto 2px 4px}.standee-art{height:55px}.standee-label{min-height:26px;font-size:8px;overflow-wrap:anywhere}.mansion-courtyard{width:67px;height:67px;border-width:5px}.tabletop-footer{min-height:45px}.tabletop-footer img{max-height:40px}}
+
+/* Actual transparent figure art replaces pseudo cardboard shapes */
+.tabletop-board .standee-art{height:clamp(84px,12vw,170px)!important;width:100%!important;overflow:visible!important;clip-path:none!important;filter:none!important}
+.tabletop-board .standee-art img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:bottom center!important}
+.tabletop-board .standee-foot,.tabletop-board .standee-label{display:none!important}
+@media(max-width:560px){.tabletop-board .standee-art{height:75px!important}}
