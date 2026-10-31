@@ -410,3 +410,13 @@ filter:drop-shadow(0 1px 1px #fff4db) drop-shadow(0 3px 2px #080517e0) drop-shad
 body:not(.tv) .tabletop-board .standee:before{left:-16%;right:-16%;top:5%;bottom:0;filter:blur(3px);background:radial-gradient(ellipse,#ffefceb5 0%,#f9e5ba8c 44%,transparent 81%)}
 body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9ed) drop-shadow(0 3px 2px #050414fa) brightness(1.17) saturate(1.13)!important}
 }
+
+/* White spotlight tuning — overrides previous warm/gray halos */
+.tabletop-board .standee:before{
+ background:radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.94) 0%,rgba(255,255,255,.79) 34%,rgba(255,255,255,.44) 59%,rgba(255,255,255,.14) 73%,transparent 83%)!important;
+}
+@media(max-width:560px){
+ body:not(.tv) .tabletop-board .standee:before{
+  background:radial-gradient(ellipse,rgba(255,255,255,.96) 0%,rgba(255,255,255,.84) 40%,rgba(255,255,255,.36) 66%,transparent 84%)!important;
+ }
+}
