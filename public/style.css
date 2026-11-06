@@ -468,3 +468,11 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 .test-launch{max-width:550px;margin:18px auto!important;border:2px solid #f4c579!important;background:linear-gradient(135deg,#392051,#1c2947)!important}
 .test-launch h2{color:#ffe1a0}
 .board-roll-status button[data-action='testBlackRoll']{background:#21152f!important;color:#fff3d3!important;border:2px solid #edc778!important}
+
+/* Pointer drag interaction: preserve artwork; emphasize only legal destinations. */
+.standee.selectable,.standee.selectable *{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.standee.selectable img{-webkit-user-drag:none;pointer-events:none}
+.dragging-guest,.dragging-guest *{cursor:grabbing!important}
+.drag-standee-ghost{pointer-events:none!important}
+.board-room.drop-allowed{outline:5px dashed #fff8a8!important;outline-offset:-7px!important;filter:brightness(1.13);transition:outline .1s ease}
+.board-room.drop-denied{outline:3px solid #f37577!important;outline-offset:-5px!important}
