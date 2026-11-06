@@ -665,3 +665,17 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 .action-status-item{font:700 13px/1.35 Nunito,sans-serif;color:#e7d9ea}
 .action-status-item.newest{font-weight:900;color:#fff8e4}
 @media(max-width:560px){.action-status-panel{padding:8px 10px;margin-bottom:9px}.action-status-heading{font-size:10px}.action-status-item{font-size:12px}}
+
+/* Restore accordion headings: older desktop styles concealed summary even when closed. */
+body:not(.tv) details.mobile-fold > summary{
+  display:list-item!important;
+  color:#fff0c8!important;
+  min-height:45px;
+  padding:12px 18px!important;
+  cursor:pointer;
+  list-style:none;
+}
+body:not(.tv) details.mobile-fold > summary::after{content:"  ▾";color:#efca81}
+body:not(.tv) details.mobile-fold[open] > summary::after{content:"  ▴"}
+body:not(.tv) details.mobile-fold:not([open]) > .fold-content{display:none!important}
+body:not(.tv) details.mobile-fold[open] > .fold-content{display:block!important}
