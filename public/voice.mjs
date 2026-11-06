@@ -30,8 +30,7 @@ export function createVoiceChat(send, notify){
    '<p class="voice-explain">Talk to everyone in this party. Microphone access is optional.</p>'+
    '<div class="voice-controls">'+(!joined?
    '<button type="button" class="mint" data-action="voiceJoin" '+(joining?'disabled':'')+'>'+(joining?'Connecting…':'Join Voice Chat')+'</button>':
-   '<button type="button" class="secondary" data-action="voiceMute">'+(muted?'🎤 Unmute':'🔇 Mute')+'</button><button type="button" class="secondary" data-action="voiceLeave">Leave Voice</button>')+
-   (soundBlocked?'<button type="button" class="mint" data-action="voiceResumeAudio">Enable Sound</button>':'')+'</div>'+
+   '<button type="button" class="secondary" data-action="voiceMute">'+(muted?'🎤 Unmute':'🔇 Mute')+'</button><button type="button" class="secondary" data-action="voiceLeave">Leave Voice</button><button type="button" class="secondary" data-action="voiceTestSpeaker">Test Speaker</button><button type="button" class="secondary" data-action="voiceResumeAudio">Enable Sound</button>')+'</div>'+
    (arr.length?'<div class="voice-people">'+people+'</div>':'<p class="voice-empty">Nobody has joined voice yet.</p>')+
    '<p class="voice-note">Headphones recommended. '+(hasTurn?'TURN relay available.':'Direct connection only; some Wi-Fi and cellular networks will block audio without a TURN relay.')+'</p></section>';
  }
@@ -175,6 +174,20 @@ export function createVoiceChat(send, notify){
   for(const audio of hub().querySelectorAll('audio'))try{await audio.play()}catch{soundBlocked=true}
   updatePanel();
  }
+ async function testSpeaker(){
+  try{
+   const audio=new (window.AudioContext||window.webkitAudioContext)();
+   await audio.resume();
+   const oscillator=audio.createOscillator(),gain=audio.createGain();
+   oscillator.type='sine';oscillator.frequency.value=440;
+   gain.gain.setValueAtTime(0.001,audio.currentTime);
+   gain.gain.exponentialRampToValueAtTime(0.12,audio.currentTime+.06);
+   gain.gain.exponentialRampToValueAtTime(0.001,audio.currentTime+.42);
+   oscillator.connect(gain);gain.connect(audio.destination);
+   oscillator.start();oscillator.stop(audio.currentTime+.45);
+   oscillator.onended=()=>audio.close().catch(()=>{});
+  }catch(err){notify('Could not play speaker test: '+err.message)}
+ }
  function sessionState(state){
   const code=state?.code||null,id=state&&!state.display?state.viewerId:null;
   if((roomCode&&roomCode!==code)||(selfId&&selfId!==id))leave(false);
@@ -186,5 +199,6 @@ export function createVoiceChat(send, notify){
    else if(action==='voiceLeave')leave();
    else if(action==='voiceMute')toggleMute();
    else if(action==='voiceResumeAudio')resumeAudio();
+   else if(action==='voiceTestSpeaker')testSpeaker();
   }};
 }
