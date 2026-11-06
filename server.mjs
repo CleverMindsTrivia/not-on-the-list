@@ -9,6 +9,16 @@ const PORT=Number(process.env.PORT||3000), root=resolve('public');
 const rooms=new Map();
 // Avoid repeating a player's costume across consecutive games while this server is running.
 const recentCostumes=new Map();
+// Optional relay for networks that cannot establish direct WebRTC audio.
+// Configure these environment variables on the Render service, not in source control.
+function voiceIceServers(){
+ const servers=[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}];
+ const urls=(process.env.VOICE_TURN_URLS||'').split(',').map(x=>x.trim()).filter(x=>x.startsWith('turn:')||x.startsWith('turns:'));
+ if(urls.length&&process.env.VOICE_TURN_USERNAME&&process.env.VOICE_TURN_CREDENTIAL){
+  servers.push({urls,username:process.env.VOICE_TURN_USERNAME,credential:process.env.VOICE_TURN_CREDENTIAL});
+ }
+ return servers;
+}
 const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const code=()=>Array.from({length:4},()=>chars[randomInt(chars.length)]).join('');
 const token=()=>randomBytes(24).toString('hex');
@@ -76,6 +86,7 @@ function handle(ws,msg){const action=msg.type;
  // Voice actions are permitted before game start and on any player's turn.
  if(action==='voiceJoin'){
   if(!seat.voice){seat.voice=true;seat.voiceMuted=false;seat.voiceSpeaking=false;}
+  send(ws,'voiceConfig',{iceServers:voiceIceServers()});
   broadcastVoice(lobby);return;
  }
  if(action==='voiceLeave'){voiceLeave(lobby,seat);return;}
