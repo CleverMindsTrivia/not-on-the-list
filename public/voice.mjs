@@ -3,14 +3,29 @@ const safe = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 export function createVoiceChat(send, notify){
  const peers=new Map();
  const members=new Map();
+ const queuedSignals=new Map();
  let local=null, joining=false, joined=false, muted=false, selfId=null, roomCode=null;
  let ctx=null, analyser=null, samples=null, speaking=false, monitor=null, soundBlocked=false;
- const iceServers=[{urls:'stun:stun.l.google.com:19302'}];
+ let iceServers=[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}];
+ let hasTurn=false;
+ function setConfig(config){
+  if(!config||!Array.isArray(config.iceServers))return;
+  const valid=config.iceServers.filter(entry=>entry&&(
+   typeof entry.urls==='string'||Array.isArray(entry.urls)
+  ));
+  if(valid.length){iceServers=valid;hasTurn=valid.some(item=>JSON.stringify(item.urls).includes('turn:')||JSON.stringify(item.urls).includes('turns:'));}
+ }
  const hub=()=>{let el=document.getElementById('voice-audio-hub');if(!el){el=document.createElement('div');el.id='voice-audio-hub';el.hidden=true;document.body.append(el)}return el};
  function updatePanel(){const el=document.getElementById('party-voice');if(el)el.outerHTML=html();}
  function html(){
   const arr=[...members.values()];
-  const people=arr.map(p=>'<div class="voice-person '+(p.speaking&&!p.muted?'voice-speaking':'')+'"><span class="voice-avatar" aria-hidden="true">'+safe((p.name||'?').slice(0,1).toUpperCase())+'</span><span class="voice-person-name">'+safe(p.name)+'</span><span class="voice-person-status">'+(p.muted?'Muted':p.speaking?'Speaking':'Listening')+'</span></div>').join('');
+  const people=arr.map(p=>{
+   const peer=peers.get(p.id);
+   const connected=peer?.pc.connectionState==='connected';
+   const failed=peer?.pc.connectionState==='failed';
+   const status=p.id===selfId?(muted?'Muted':'Mic on'):(p.muted?'Muted':failed?'Connection failed':connected?(p.speaking?'Speaking':'Connected'):joined?'Connecting…':'In voice');
+   return '<div class="voice-person '+(p.speaking&&!p.muted&&connected?'voice-speaking':'')+'"><span class="voice-avatar" aria-hidden="true">'+safe((p.name||'?').slice(0,1).toUpperCase())+'</span><span class="voice-person-name">'+safe(p.name)+'</span><span class="voice-person-status">'+status+'</span></div>';
+  }).join('');
   return '<section class="panel voice-panel" id="party-voice" aria-label="Party voice chat"><div class="voice-header"><h2>🎙️ Party Voice Chat</h2><span class="voice-count">'+arr.length+' in voice</span></div>'+
    '<p class="voice-explain">Talk to everyone in this party. Microphone access is optional.</p>'+
    '<div class="voice-controls">'+(!joined?
@@ -18,7 +33,7 @@ export function createVoiceChat(send, notify){
    '<button type="button" class="secondary" data-action="voiceMute">'+(muted?'🎤 Unmute':'🔇 Mute')+'</button><button type="button" class="secondary" data-action="voiceLeave">Leave Voice</button>')+
    (soundBlocked?'<button type="button" class="mint" data-action="voiceResumeAudio">Enable Sound</button>':'')+'</div>'+
    (arr.length?'<div class="voice-people">'+people+'</div>':'<p class="voice-empty">Nobody has joined voice yet.</p>')+
-   '<p class="voice-note">Headphones recommended. Audio is peer-to-peer; some networks may require a relay.</p></section>';
+   '<p class="voice-note">Headphones recommended. '+(hasTurn?'TURN relay available.':'Direct connection only; some Wi-Fi and cellular networks will block audio without a TURN relay.')+'</p></section>';
  }
  function sendSignal(to,signal){send('voiceSignal',{to,signal});}
  function disposePeer(id){
@@ -29,38 +44,60 @@ export function createVoiceChat(send, notify){
  function makePeer(id){
   if(peers.has(id))return peers.get(id);
   const pc=new RTCPeerConnection({iceServers});
-  const peer={pc,pending:[],audio:null,offering:false};
+  const peer={pc,pending:[],audio:null,offering:false,retried:false};
   peers.set(id,peer);
   for(const track of local?.getAudioTracks()||[])pc.addTrack(track,local);
   pc.onicecandidate=event=>{if(event.candidate)sendSignal(id,{kind:'ice',candidate:event.candidate.toJSON()});};
   pc.ontrack=event=>{
    let audio=peer.audio;
-   if(!audio){audio=document.createElement('audio');audio.autoplay=true;audio.playsInline=true;audio.dataset.peerId=String(id);hub().append(audio);peer.audio=audio;}
+   if(!audio){audio=document.createElement('audio');audio.autoplay=true;audio.playsInline=true;audio.muted=false;audio.volume=1;audio.dataset.peerId=String(id);hub().append(audio);peer.audio=audio;}
    audio.srcObject=event.streams[0]||new MediaStream([event.track]);
    audio.play().then(()=>{soundBlocked=false;updatePanel()}).catch(()=>{soundBlocked=true;updatePanel()});
   };
   pc.onconnectionstatechange=()=>{
-   if(pc.connectionState==='failed')notify('Voice connection failed with a player. Try leaving and rejoining voice.');
+   updatePanel();
+   if(pc.connectionState==='connected'){
+    peer.audio?.play().catch(()=>{soundBlocked=true;updatePanel()});
+   }
+   if(pc.connectionState==='failed'){
+    // The offerer can attempt one ICE restart before reporting a failed path.
+    if(!peer.retried&&selfId<id){
+     peer.retried=true;
+     pc.restartIce();
+     createOffer(id,true);
+    }else{
+     const name=members.get(id)?.name||'another player';
+     notify('Voice cannot reach '+name+'. '+(hasTurn?'Check the network and tap Enable Sound if shown.':'A TURN relay may be required for these networks.'));
+    }
+   }
   };
   return peer;
  }
- async function createOffer(id){
+ async function createOffer(id,restart=false){
   const p=makePeer(id);
   if(p.offering||p.pc.signalingState!=='stable')return;
   p.offering=true;
   try{
-   await p.pc.setLocalDescription(await p.pc.createOffer());
+   await p.pc.setLocalDescription(await p.pc.createOffer(restart?{iceRestart:true}:{}));
    sendSignal(id,{kind:'offer',description:p.pc.localDescription.toJSON()});
   }catch(err){notify('Unable to connect voice: '+err.message)}
   finally{p.offering=false}
  }
  async function handleSignal(data){
-  if(!joined||!local||!members.has(data.from))return;
+  if(!joined||!local)return;
+  if(!members.has(data.from)){
+   const queue=queuedSignals.get(data.from)||[];
+   if(queue.length<100){queue.push(data);queuedSignals.set(data.from,queue)}
+   return;
+  }
   const signal=data.signal;if(!signal)return;
   const p=makePeer(data.from);
   try{
    if(signal.kind==='offer'){
-    if(p.pc.signalingState!=='stable'){disposePeer(data.from);return handleSignal(data);}
+    if(p.pc.signalingState!=='stable'){
+     if(selfId<data.from)return; // deterministic polite peer handles glare
+     disposePeer(data.from);return handleSignal(data);
+    }
     await p.pc.setRemoteDescription(signal.description);
     for(const candidate of p.pending.splice(0))await p.pc.addIceCandidate(candidate);
     await p.pc.setLocalDescription(await p.pc.createAnswer());
@@ -78,6 +115,11 @@ export function createVoiceChat(send, notify){
  function setMembers(list){
   members.clear();for(const m of list||[])members.set(m.id,m);
   if(joined){
+   for(const [id,signals] of [...queuedSignals]){
+    if(!members.has(id))continue;
+    queuedSignals.delete(id);
+    for(const message of signals)handleSignal(message);
+   }
    for(const id of peers.keys())if(!members.has(id))disposePeer(id);
    for(const m of members.values())if(m.id!==selfId&&selfId<m.id&&!peers.has(m.id))createOffer(m.id);
   }
@@ -117,6 +159,7 @@ export function createVoiceChat(send, notify){
   if(ctx){ctx.close().catch(()=>{});ctx=null}
   analyser=null;samples=null;
   for(const id of [...peers.keys()])disposePeer(id);
+  queuedSignals.clear();
   for(const track of local?.getTracks()||[])track.stop();
   local=null;members.clear();updatePanel();
  }
@@ -137,7 +180,7 @@ export function createVoiceChat(send, notify){
   if((roomCode&&roomCode!==code)||(selfId&&selfId!==id))leave(false);
   roomCode=code;selfId=id;
  }
- return {html,join,leave,toggleMute,resumeAudio,handleSignal,setMembers,sessionState,
+ return {html,join,leave,toggleMute,resumeAudio,handleSignal,setMembers,setConfig,sessionState,
   handleAction(action){
    if(action==='voiceJoin')join();
    else if(action==='voiceLeave')leave();
