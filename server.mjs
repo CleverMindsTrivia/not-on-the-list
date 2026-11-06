@@ -24,9 +24,24 @@ const publicState=(lobby,seat)=>{
 };
 function broadcast(lobby){for(const s of lobby.seats)if(s.ws)send(s.ws,'state',{state:publicState(lobby,s)});for(const ws of lobby.spectators)send(ws,'state',{state:publicState(lobby,null)});}
 function fail(ws,message){send(ws,'error',{message});}
+// Optional voice chat: the WebSocket relays WebRTC setup, never microphone audio.
+function voiceMembers(lobby){
+ return lobby.seats.filter(seat=>seat.voice&&seat.ws?.readyState===WebSocket.OPEN)
+   .map(seat=>({id:seat.id,name:seat.name,muted:!!seat.voiceMuted,speaking:!!seat.voiceSpeaking}));
+}
+function broadcastVoice(lobby){
+ const members=voiceMembers(lobby);
+ for(const seat of lobby.seats)if(seat.ws)send(seat.ws,'voiceRoster',{members});
+}
+function voiceLeave(lobby,seat){
+ if(!seat?.voice)return;
+ seat.voice=false;seat.voiceMuted=false;seat.voiceSpeaking=false;
+ broadcastVoice(lobby);
+}
+
 function validName(name){return typeof name==='string'&&name.trim().length>=1&&name.trim().length<=22 ? name.trim():null;}
-function dropConnection(ws){const meta=ws.meta;if(!meta)return;const lobby=rooms.get(meta.code);if(!lobby)return;if(meta.spectator)lobby.spectators.delete(ws);else {const seat=lobby.seats.find(s=>s.id===meta.id);if(seat?.ws===ws)seat.ws=null;}broadcast(lobby);}
-function bind(ws,lobby,seat=null){dropConnection(ws);ws.meta={code:lobby.code,id:seat?.id||null,spectator:!seat};if(seat){seat.ws?.close(4001,'Rejoined elsewhere');seat.ws=ws;}else lobby.spectators.add(ws);broadcast(lobby);send(ws,'joined',{code:lobby.code,token:seat?.token||null});}
+function dropConnection(ws){const meta=ws.meta;if(!meta)return;const lobby=rooms.get(meta.code);if(!lobby)return;if(meta.spectator)lobby.spectators.delete(ws);else {const seat=lobby.seats.find(s=>s.id===meta.id);if(seat?.ws===ws){seat.ws=null;seat.voice=false;seat.voiceMuted=false;seat.voiceSpeaking=false;}}broadcast(lobby);broadcastVoice(lobby);}
+function bind(ws,lobby,seat=null){dropConnection(ws);ws.meta={code:lobby.code,id:seat?.id||null,spectator:!seat};if(seat){seat.ws?.close(4001,'Rejoined elsewhere');seat.ws=ws;seat.voice=false;seat.voiceMuted=false;seat.voiceSpeaking=false;}else lobby.spectators.add(ws);broadcast(lobby);broadcastVoice(lobby);send(ws,'joined',{code:lobby.code,token:seat?.token||null});}
 
 // This computer player exists only in opt-in solo test games.
 function runTestComputer(lobby){
@@ -58,6 +73,29 @@ function handle(ws,msg){const action=msg.type;
  if(action==='reconnect'){const lobby=rooms.get(String(msg.code||'').toUpperCase());const seat=lobby?.seats.find(s=>s.token===msg.token);if(!seat)throw Error('Your saved session was not found. Rejoin before the game starts.');bind(ws,lobby,seat);return;}
  if(action==='watch'){const lobby=rooms.get(String(msg.code||'').trim().toUpperCase());if(!lobby)throw Error('Party not found.');bind(ws,lobby);return;}
  const meta=ws.meta,lobby=rooms.get(meta?.code),seat=lobby?.seats.find(s=>s.id===meta?.id);if(!lobby||!seat||seat.ws!==ws)throw Error('You must join as a player first.');
+ // Voice actions are permitted before game start and on any player's turn.
+ if(action==='voiceJoin'){
+  if(!seat.voice){seat.voice=true;seat.voiceMuted=false;seat.voiceSpeaking=false;}
+  broadcastVoice(lobby);return;
+ }
+ if(action==='voiceLeave'){voiceLeave(lobby,seat);return;}
+ if(action==='voiceMute'||action==='voiceSpeaking'){
+  if(!seat.voice)throw Error('Join voice chat first.');
+  if(action==='voiceMute')seat.voiceMuted=!!msg.muted;
+  else seat.voiceSpeaking=!seat.voiceMuted&&!!msg.speaking;
+  broadcastVoice(lobby);return;
+ }
+ if(action==='voiceSignal'){
+  if(!seat.voice)throw Error('Join voice chat first.');
+  const recipient=lobby.seats.find(s=>s.id===Number(msg.to));
+  if(!recipient?.voice||recipient===seat||recipient.ws?.readyState!==WebSocket.OPEN) return;
+  const signal=msg.signal;
+  if(!signal||typeof signal!=='object'||!['offer','answer','ice'].includes(signal.kind))return;
+  const payload=signal.kind==='ice'?signal.candidate:signal.description;
+  if(payload===null||typeof payload!=='object'||JSON.stringify(payload).length>24000)return;
+  send(recipient.ws,'voiceSignal',{from:seat.id,signal:{kind:signal.kind,...(signal.kind==='ice'?{candidate:payload}:{description:payload})}});
+  return;
+ }
  if(action==='leaveParty'){if(lobby.game)throw Error('Players can leave only between games.');const idx=lobby.seats.findIndex(s=>s.id===seat.id);if(idx<0)return;seat.ws=null;lobby.seats.splice(idx,1);ws.meta=null;if(!lobby.seats.length){rooms.delete(lobby.code);}else{lobby.seats.forEach((s,i)=>{s.id=i+1;if(s.ws?.meta)s.ws.meta.id=s.id;});broadcast(lobby);}send(ws,'left');return;}
  if(action==='removePlayer'){if(lobby.seats[0]!==seat)throw Error('Only the host can remove a player.');if(lobby.game)throw Error('Players can be removed only between games.');const target=lobby.seats.find(s=>s.id===Number(msg.playerId));if(!target||target===seat)throw Error('That player cannot be removed.');lobby.seats=lobby.seats.filter(s=>s!==target);if(target.ws){send(target.ws,'removed');target.ws.meta=null;}lobby.seats.forEach((s,i)=>{s.id=i+1;if(s.ws?.meta)s.ws.meta.id=s.id;});broadcast(lobby);return;}
  if(action==='start'){if(lobby.seats[0]!==seat)throw Error('Only the host can start.');if(lobby.game)throw Error('The game has already started.');if(lobby.seats.length<2)throw Error('At least two players are required.');lobby.game=createGame(lobby.seats.map(s=>s.name),()=>randomInt(0x100000000)/0x100000000);
@@ -85,7 +123,7 @@ function handle(ws,msg){const action=msg.type;
 }
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');let path=resolve(root,'.'+decodeURIComponent(url.pathname==='/'?'/index.html':url.pathname));if(path!==root&&!path.startsWith(root+sep)){res.writeHead(403).end();return;}const file=await stat(path);if(!file.isFile())throw Error('Not found');res.writeHead(200,{'Content-Type':mime[extname(path)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(await readFile(path));}catch{res.writeHead(404).end('Not found');}});
-const wss=new WebSocketServer({server,maxPayload:8192});
+const wss=new WebSocketServer({server,maxPayload:65536});
 wss.on('connection',(ws)=>{ws.on('message',raw=>{try{const msg=JSON.parse(raw.toString());if(!msg||typeof msg.type!=='string')throw Error('Invalid request.');handle(ws,msg);}catch(e){fail(ws,e.message||'Unable to complete action.');}});ws.on('close',()=>dropConnection(ws));});
 // Idle lobbies expire automatically; active games last until process restart or cleanup.
 setInterval(()=>{for(const [key,lobby] of rooms)if(Date.now()-lobby.created>24*3600*1000){for(const s of lobby.seats)s.ws?.close();for(const ws of lobby.spectators)ws.close();rooms.delete(key);}},3600*1000).unref();
