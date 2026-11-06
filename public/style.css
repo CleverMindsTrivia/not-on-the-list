@@ -601,3 +601,59 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
 .board-card-deck:disabled{opacity:1!important;filter:none!important;cursor:default}
 @media(max-width:900px){.board-card-deck{--deck-w:41px}.deck-ornament{font-size:20px}}
 @media(max-width:560px){.board-card-deck{--deck-w:28px}.board-card-deck:before{transform:translate(-3px,2px) rotate(-4deg)}.board-card-deck:after{transform:translate(-1px,1px) rotate(-2deg)}.deck-ornament{font-size:14px}.board-card-deck:before,.board-card-deck:after,.board-card-deck .deck-card{border-width:1px;border-radius:3px}.board-card-deck .deck-card{box-shadow:inset 0 0 0 2px #3b1e38,inset 0 0 0 3px #f0cb91,0 3px 6px #21101f99}}
+
+/* FIX: Make the central deck visible and reachable at every board size.
+   None of this modifies the original room illustrations. */
+.tabletop-board,.tabletop-board *{
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none;
+  caret-color:transparent!important;
+}
+.tabletop-board img{-webkit-user-drag:none}
+.tabletop-board .board-crossroads{
+  z-index:35!important;
+  pointer-events:auto!important;
+  overflow:visible!important;
+  width:136px!important;height:136px!important;
+  border:7px double #94613a!important;
+  background:radial-gradient(circle,#f0dcb8,#c79760 78%,#9b693e)!important;
+}
+.tabletop-board .board-card-deck{
+  --deck-w:72px!important;
+  position:relative!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  flex:none!important;
+  min-width:0!important;
+  border-radius:7px!important;
+}
+.tabletop-board .board-card-deck .deck-card{
+  display:grid!important;
+  visibility:visible!important;
+}
+.tabletop-board .board-card-deck.can-draw{
+  box-shadow:0 0 0 5px #f9d77e77!important;
+  animation:deck-ready-pulse 1.5s ease-in-out infinite;
+}
+@keyframes deck-ready-pulse{
+  50%{filter:drop-shadow(0 0 13px #ffe8a4) brightness(1.18)}
+}
+@media(max-width:900px){
+  .tabletop-board .board-crossroads{width:105px!important;height:105px!important}
+  .tabletop-board .board-card-deck{--deck-w:55px!important}
+}
+@media(max-width:560px){
+  .tabletop-board .board-crossroads{
+    width:74px!important;height:74px!important;
+    border-width:4px!important;
+    top:calc((100% - 32px) / 2)!important;
+  }
+  .tabletop-board .board-card-deck{--deck-w:43px!important}
+  .deck-ornament{font-size:21px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .tabletop-board .board-card-deck.can-draw{animation:none}
+}
