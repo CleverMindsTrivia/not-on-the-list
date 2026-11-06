@@ -566,3 +566,38 @@ body:not(.tv) .tabletop-board .standee-art img{filter:drop-shadow(0 0 2px #fff9e
   .tabletop-board:before{inset:5px calc(50% - 5px) 32px!important}
   .tabletop-board:after{left:5px!important;right:5px!important;height:10px!important;top:calc((100% - 32px) / 2 - 5px)!important}
 }
+
+/* Central physical card deck: no visible words, original illustrations unchanged. */
+.tabletop-board .board-crossroads{
+  pointer-events:none!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle,#efd6ac 0%,#c99d6b 68%,#865532 100%)!important;
+}
+.board-card-deck{
+  --deck-w:55px;
+  position:relative;display:block;flex:none;
+  width:var(--deck-w);height:calc(var(--deck-w) * 1.35);
+  padding:0!important;border:0!important;outline-offset:4px!important;
+  border-radius:6px!important;
+  background:transparent!important;box-shadow:none!important;
+  pointer-events:auto!important;cursor:default;
+  transform:rotate(-8deg);
+}
+.board-card-deck:before,.board-card-deck:after,.board-card-deck .deck-card{
+  content:"";position:absolute;inset:0;border:2px solid #f3ddaa;
+  border-radius:6px;background:#45213e;box-shadow:0 3px 6px #21101f99;
+}
+.board-card-deck:before{transform:translate(-5px,4px) rotate(-5deg);background:#e8cda3;border-color:#78512d}
+.board-card-deck:after{transform:translate(-2px,2px) rotate(-2deg);background:#b78b63;border-color:#f2d5a0}
+.board-card-deck .deck-card{
+  z-index:1;display:grid;place-items:center;
+  background:repeating-linear-gradient(45deg,#512847 0 6px,#633657 6px 9px);
+  box-shadow:inset 0 0 0 4px #3b1e38,inset 0 0 0 6px #f0cb91,0 5px 8px #21101f99;
+}
+.deck-ornament{font:900 25px/1 Georgia,serif;color:#f2d7a3;text-shadow:0 2px 2px #250e2f}
+.board-card-deck.can-draw{cursor:pointer;filter:drop-shadow(0 0 8px #fff2b4)}
+.board-card-deck.can-draw:hover{transform:rotate(-8deg) translateY(-4px) scale(1.06)}
+.board-card-deck.can-draw:focus-visible{outline:3px solid #fff2a7!important}
+.board-card-deck:disabled{opacity:1!important;filter:none!important;cursor:default}
+@media(max-width:900px){.board-card-deck{--deck-w:41px}.deck-ornament{font-size:20px}}
+@media(max-width:560px){.board-card-deck{--deck-w:28px}.board-card-deck:before{transform:translate(-3px,2px) rotate(-4deg)}.board-card-deck:after{transform:translate(-1px,1px) rotate(-2deg)}.deck-ornament{font-size:14px}.board-card-deck:before,.board-card-deck:after,.board-card-deck .deck-card{border-width:1px;border-radius:3px}.board-card-deck .deck-card{box-shadow:inset 0 0 0 2px #3b1e38,inset 0 0 0 3px #f0cb91,0 3px 6px #21101f99}}
